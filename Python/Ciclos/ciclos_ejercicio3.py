@@ -17,9 +17,11 @@ while flag != 0:
 
     opcion = int(input("[OP]: "))
 
+    # Opción para salir del programa
     if opcion == 0:
-        flag = 0
+        flag = 0  # Cambia el valor de 'flag' a 0, lo que causará que el ciclo while termine en la próxima iteración
     else:
+        # Si la opción no es 0, se solicita al usuario que ingrese dos números para realizar la operación seleccionada
         num_a = float(input("Ingrese el primer número: "))
         num_b = float(input("Ingrese el segundo número: "))
 
