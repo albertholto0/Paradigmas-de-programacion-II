@@ -9,8 +9,3 @@ Este directorio contiene ejemplos y explicaciones sobre el uso de sentencias con
   - `if`: Ejecuta un bloque de código si la condición especificada es verdadera.
   - `elif`: Permite evaluar condiciones adicionales si las anteriores son falsas.
   - `else`: Ejecuta un bloque de código si todas las condiciones anteriores son falsas.
-
-## Ejecución
-
-Para ejecutar los ejemplos de condicionales, asegúrate de tener instalado Python 3. Puedes correr los scripts desde la línea de comandos con el siguiente comando:
-
