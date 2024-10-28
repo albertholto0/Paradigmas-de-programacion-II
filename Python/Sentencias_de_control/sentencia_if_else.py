@@ -2,17 +2,26 @@
 Nombre: Albert Alexis Contreras Mendoza
 Fecha: 23 de octubre del 2024
 Descripción: Sentencia if-else
+"""
+"""
+La sentencia if-else es una estructura de control fundamental que permite tomar decisiones en el código.
+Dependiendo de si se cumple una determinada condición, el programa tomará un camino u otro.
 
 Sintaxis:
-    if conficion:
-        # Código si la condicion es verdadera
-    else
-        # Código si la condicion es falsa
-"""
-print(" - - - Núm. PAR O IMPAR ¿? - - -")
-n = int(input("Ingrese un número entero: "))
-
-if n % 2 == 0:
-    print("Es par")
+if condición:
+    # Código a ejecutar si la condición es verdadera.
 else:
-    print("NO es par")
+    # Código a ejecutar si la condición es falsa.
+# Código que se ejecuta sin importar la condición.
+"""
+# Ejemplo en donde se determina si un número es par o impar.
+print("  ***  Programa que determina si un número es par o impar  ***")
+numero = int(input("Ingresa un número: "))  # Solicitamos el número
+
+# lógica para determinar si es par o impar
+print()
+if numero % 2 == 0:  # Implica que es par
+    print("El número es par.")
+
+else:
+    print("El número es impar.")  # Implica que es impar
