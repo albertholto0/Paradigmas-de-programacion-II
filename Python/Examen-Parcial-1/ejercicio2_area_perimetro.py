@@ -1,3 +1,4 @@
+# Una bandera. El programa funcionará siempre y cuando la bandera tenga el valor de '1'
 flag = 1
 
 while flag != 0:
@@ -29,6 +30,9 @@ while flag != 0:
         radio = float(input("Ingrese [radio]: "))
         print(f"El perimetro resultante es: {radio * 2 * 3.1416}")
     elif op == 0:
+        # Si el usuario ingresa '0' (donde el menú dice que 0 es para salir),
+        # la bandera toma el valor de '0', por lo tanto el programa no puede seguir funcionando
+        # y termina
         flag = 0
     else:
         print("Opción no válida")
