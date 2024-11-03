@@ -6,16 +6,17 @@ num_intento = 1
 print("+ - - JUEGO DEL ADIVINADOR - - +")
 print("Ingresa un número del 1 al 100")
 num_generado = randint(1, 100)
-'''
+
 # Para verificar el funcionamiento se muestra el siguiente letrero:
 print(f"        numero generado: {num_generado}")
 # En un juego real, esto se debe de ocultar
-'''
+
 while flag == 0 and num_intento != 6:
     num_jugador = int(input(f"Intento número {num_intento}: "))
     # Compara el número ingresado con el generado aleatoriamente
     if num_jugador == num_generado:
-        print("¡Ganaste! Has adivinado el número :D")
+        print("\n¡Ganaste! Has adivinado el número :D")
+        print(f"Logrado en {num_intento} intento(s)...")
         flag = 1
     # Si el número es mayor, da una pista
     elif num_jugador < num_generado:
