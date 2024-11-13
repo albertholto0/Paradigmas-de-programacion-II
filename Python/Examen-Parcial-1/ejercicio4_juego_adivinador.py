@@ -8,7 +8,7 @@ print("Ingresa un número del 1 al 100")
 num_generado = randint(1, 100)
 
 # Para verificar el funcionamiento se muestra el siguiente letrero:
-print(f"        numero generado: {num_generado}")
+# print(f"        numero generado: {num_generado}")
 # En un juego real, esto se debe de ocultar
 
 while flag == 0 and num_intento != 6:

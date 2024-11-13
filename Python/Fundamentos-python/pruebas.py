@@ -1,0 +1,1 @@
+consola = input("Ingresa cualquier cosa")
