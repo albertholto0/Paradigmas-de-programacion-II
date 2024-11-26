@@ -4,5 +4,4 @@ class Config():
         self.screen_height = 720
         self.game_title = "Escape de alumnos"
         self.background_color = (212,230,241)
-        # self.alumno_speed = 5.0 # Velocidad flotante del personaje
-        self.laptop_speed = 10.0
+        self.alumno_speed = 0.2 # Velocidad flotante del personaje

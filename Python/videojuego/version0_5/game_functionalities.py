@@ -24,4 +24,3 @@ def game_events(alumnos):
                 alumnos.is_moving_up = False
             if event.key == pygame.K_DOWN:
                 alumnos.is_moving_down = False
-
