@@ -22,6 +22,7 @@ def run_game():
         game_functionalities.game_events(alumno)
         background_color = esc_alumnos_config.background_color
         screen.fill(background_color)
+        alumno.update()
         alumno.blitme()
         pygame.display.flip()  # Actualiza la pantalla con los cambios realizados (ilusión de movimiento)
 ## Código a nivel de módulo
