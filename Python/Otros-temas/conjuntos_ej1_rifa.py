@@ -28,7 +28,7 @@ def mostrar_menu():
     print("3) Eliminar correo de participante.")
     print("4) Seleccionar ganador.")
     print("0) Salir.")
-    return input("\nIngresa una de las opciones: ")
+    return int(input("\nIngresa una de las opciones: "))
 
 # Función para ver los correos de los participantes
 def ver_participantes():
@@ -36,6 +36,7 @@ def ver_participantes():
         print("\nNo hay participantes en la rifa.")
     else:
         print("\n*** Participantes registrados ***")
+        # Usa "enumerate" para obtener el índice y el valor de cada elemento en la lista. "Start" para comenzar en 1 y no en 0
         for i, correo in enumerate(participantes, start=1):
             print(f"{i}. {correo}")
 
@@ -55,8 +56,8 @@ def eliminar_participante():
     else:
         ver_participantes()  # Muestra los participantes actuales
         try:
-            indice = int(input("\nIngresa el número del participante a eliminar: ")) - 1
-            if 0 <= indice < len(participantes):
+            indice = int(input("\nIngresa el número del participante a eliminar: ")) - 1 # Esto permite convertir la entrada del usuario (que usa numeración desde 1) a un índice de lista (que empieza desde 0).
+            if 0 <= indice < len(participantes):    # len() devuelve la cantidad de elementos en la lista participantes
                 participante_a_eliminar = list(participantes)[indice]
                 participantes.remove(participante_a_eliminar)
                 print(f"{participante_a_eliminar} ha sido eliminado de la rifa.")
@@ -70,22 +71,22 @@ def seleccionar_ganador():
     if not participantes:
         print("\nNo hay participantes para seleccionar un ganador.")
     else:
-        ganador = random.choice(list(participantes))  # Convertir a lista para usar random.choice
+        ganador = random.choice(list(participantes))  # Convierte a lista para usar random.choice
         print(f"\nEl ganador de la rifa es: {ganador}")
 
 # Código a nivel de módulo
 while True:
     opcion = mostrar_menu()
-    if opcion == "0":
+    if opcion == 0:
         print("\nSaliendo de la rifa...")
         break
-    elif opcion == "1":
+    elif opcion == 1:
         ver_participantes()
-    elif opcion == "2":
+    elif opcion == 2:
         agregar_participante()
-    elif opcion == "3":
+    elif opcion == 3:
         eliminar_participante()
-    elif opcion == "4":
+    elif opcion == 4:
         seleccionar_ganador()
     else:
         print("\nOpción no válida. Por favor, intenta de nuevo.")
