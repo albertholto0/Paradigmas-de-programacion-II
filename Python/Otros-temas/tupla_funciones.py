@@ -1,26 +1,39 @@
 """
-Albert Alexis Contreras Mendoza
-13 de noviembre del 2024
-Muestra el promedio del semestre de las cuatro calificaciones
+Nombre: Albert Alexis Contreras Mendoza
+Fecha: 13 de noviembre del 2024
+Descripción: Muestra el uso de tuplas con funciones
 """
+""" Función que recibe una tupla con las calificaciones del semestre (tres calificaciones parciales y ordinario)
+    y devuelve una tupla con el promedio de los parciales, el promedio final y si está aprobado """
+def determinar_promedio(calificaciones):
+    # Se calculan los promedios y se determina si está aprobado (promedio final mayor o igual a 6).
+    promedio_parcial = sum(calificaciones[0:3])/len(calificaciones[0:3])
+    promedio_final = (promedio_parcial + calificaciones[3])/2
+    esta_aprobado = promedio_final >= 6
 
-def calcular_promedios(c1, c2, c3, ordinario):
-    promedio_parcial = (c1 + c2 + c3) / 3
-    promedio_final = (promedio_parcial + ordinario) / 2
-    return promedio_parcial, promedio_final
+    # Regresa los valores en forma de una tupla. Nota: recordar que no se requiere el uso de paréntesis.
+    return promedio_parcial, promedio_final, esta_aprobado
 
 
-calif_p1 = float(input("Calificación parcial 1: "))
-calif_p2 = float(input("Calificación parcial 2: "))
-calif_p3 = float(input("Calificación parcial 3: "))
-calif_or = float(input("Calificación ordinario: "))
+""" %%%%%%%     CÓDIGO A NIVEL DE MÓDULO    %%%%%%%%%%%%%%%%%%%%% """
+print("  ***  Programa que determina el promedio utilizando funcioens y tuplas  ***")
 
-promedios_finales = calcular_promedios(calif_p1, calif_p2, calif_p3, calif_or)
+# Se solicitan las calificaciones de los parciales y ordinario.
+parcial1 = float(input("Ingresa la calificación del Parcial 1: ").strip())
+parcial2 = float(input("Ingresa la calificación del Parcial 2: ").strip())
+parcial3 = float(input("Ingresa la calificación del Parcial 3: ").strip())
+ordinario = float(input("Ingresa la calificación del Ordinario: ").strip())
+print()
 
-print(f"\nParcial 1: {calif_p1:.1}"
-      f"\nParcial 2: {calif_p2:.1}"
-      f"\nParcial 3: {calif_p3:.1}"
-      f"\nOrdinario: {calif_or:.1}"
-      f"\n-----\n"
-      f"El promedio final del parcial es: {promedios_finales[0]:.1}"
-      f"\nEl promedio final es: {promedios_finales[1]:.1}")
+# Se crea una tupla
+calificaciones = (parcial1, parcial2, parcial3, ordinario)
+print(calificaciones)
+# Se utiliza la función para calcular los promedios y determinar si está o no aprobado.
+# Para ello, se utiliza el desempaquetado de tuplas.
+promedio_parcial, promedio_final, esta_aprobado = determinar_promedio(calificaciones)
+
+if esta_aprobado:
+    print("Felicidades, aprobaste!", end = " ")
+else:
+    print("Lo siento, no aprobaste.", end = " ")
+print(f"El promedio de los parciales es: {promedio_parcial:.1f} y el promedio final es: {promedio_final:.1f}.")
