@@ -28,26 +28,24 @@ reglas = {
     "tijeras": {"piedra": "derrota", "papel": "victoria", "tijeras": "empate"}
 }
 
-
 # Función para mostrar el menú
 def mostrar_menu():
     print("\n***  Juego de piedra, papel o tijeras  ***")
-    print("1) Piedra.")
-    print("2) Papel.")
-    print("3) Tijeras.")
-    print("0) Salir.")
-    opcion = input("\nSelecciona una opción: ").strip().lower()
-    if opcion == "1":
+    print("1. Piedra.")
+    print("2. Papel.")
+    print("3. Tijeras.")
+    print("0, Salir.")
+    opcion = int(input("\nSelecciona una opción: "))
+    if opcion == 1:
         return "piedra"
-    elif opcion == "2":
+    elif opcion == 2:
         return "papel"
-    elif opcion == "3":
+    elif opcion == 3:
         return "tijeras"
-    elif opcion == "0":
+    elif opcion == 0:
         return "salir"
     else:
         return None
-
 
 # Función para determinar el ganador
 def jugar_ronda(jugador, cpu):
@@ -58,13 +56,11 @@ def jugar_ronda(jugador, cpu):
     else:
         return "empate"
 
-
 # Función para seleccionar la jugada de la CPU
 def cpu_jugada():
     return random.choice(["piedra", "papel", "tijeras"])
 
-
-# Variables para llevar el conteo de victorias, empates y derrotas
+# Uso de variables para llevar el conteo de victorias, empates y derrotas
 victorias, empates, derrotas = 0, 0, 0
 
 while True:
@@ -87,11 +83,15 @@ while True:
     # Determinar el resultado de la ronda
     resultado = jugar_ronda(jugador, cpu)
 
+    # Si el resultado de la ronda es una victoria...
     if resultado == "victoria":
         print("¡Ganaste esta ronda!")
-        victorias += 1
+        victorias += 1  # Incrementa el contador de victorias
+    # Si el resultado de la ronda es una derrota...
     elif resultado == "derrota":
         print("¡Perdiste esta ronda!")
-        derrotas += 1
+        derrotas += 1  # Incrementa el contador de derrotas
+    # Si el resultado no es ni victoria ni derrota, se asume que es un empate
     else:
         print("¡Es un empate!")
+
