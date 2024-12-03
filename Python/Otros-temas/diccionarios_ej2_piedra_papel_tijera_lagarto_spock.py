@@ -23,12 +23,14 @@ Este programa es una versión mejorada del juego de piedra, papel y tijeras. Las
 import random
 
 # Diccionario con las reglas del juego
+# Cada clave es una jugada (por ejemplo, "Tijeras"), y su valor es una lista de jugadas a las que vence.
+# Por ejemplo, "Tijeras" vence a "Papel" y "Lagarto".
 reglas = {
-    "Tijeras": ["Papel", "Lagarto"],
-    "Papel": ["Piedra", "Spock"],
-    "Piedra": ["Tijeras", "Lagarto"],
-    "Lagarto": ["Spock", "Papel"],
-    "Spock": ["Tijeras", "Piedra"]
+    "Tijeras": ["Papel", "Lagarto"],   # Tijeras gana a Papel y Lagarto
+    "Papel": ["Piedra", "Spock"],      # Papel gana a Piedra y Spock
+    "Piedra": ["Tijeras", "Lagarto"],  # Piedra gana a Tijeras y Lagarto
+    "Lagarto": ["Spock", "Papel"],     # Lagarto gana a Spock y Papel
+    "Spock": ["Tijeras", "Piedra"]     # Spock gana a Tijeras y Piedra
 }
 
 # Variables para el puntaje
