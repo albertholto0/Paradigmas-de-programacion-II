@@ -25,15 +25,17 @@ def menu():
     print("3. Calcular la pendiente y la ecuación de la recta entre dos coordenadas")
     print("4. Eliminar coordenada (x,y)")
     print("0. Salir...")
-    return input("\nIngresa una de las opciones: ")
+    return int(input("\nIngresa una de las opciones: "))
 
 # Función para mostrar coordenadas
 def ver_coordenadas():
     if not coordenadas:
         print("Lista vacía...")
     else:
+        # Usa "enumerate" para obtener el índice y el valor de cada elemento en la lista. "Start" para comenzar en 1 y no en 0
         for i,coordenada in enumerate(coordenadas, start=1):
             print(f"{i}. {coordenada}")
+
 # Función para agregar coordenada
 def agregar_coordenadas():
     while True:
@@ -53,6 +55,7 @@ def agregar_coordenadas():
         coordenadas.append((x, y))
         print(f"Coordenada ({x}, {y}) agregada exitosamente.")
         break
+
 # Función para calcular la ecuación de la recta con 2 pares de coordenadas
 def calcular_recta():
     if len(coordenadas) < 2:
@@ -112,15 +115,15 @@ while True:
     menu()
     opcion = input("\nIngresa una de las opciones: ")
 
-    if opcion == '1':
+    if opcion == 1:
         ver_coordenadas()
-    elif opcion == '2':
+    elif opcion == 2:
         agregar_coordenadas()
-    elif opcion == '3':
+    elif opcion == 3:
         calcular_recta()
-    elif opcion == '4':
+    elif opcion == 4:
         eliminar_coordenada()
-    elif opcion == '0':
+    elif opcion == 0:
         print("\nSaliendo del programa...")
         break
     else:
