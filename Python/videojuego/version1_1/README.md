@@ -1,0 +1,1 @@
+## No dispara el personaje
