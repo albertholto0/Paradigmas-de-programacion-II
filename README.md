@@ -4,7 +4,7 @@
 **Nombre:** Albert Alexis Contreras Mendoza  
 **Licenciatura:** Informática  
 **Institución:** Universidad de la Sierra Juárez  
-**Profesor:** Albert Martinez Barbosa  
+**Profesor:** Alberto Martínez Barbosa  
 
 ## Descripción del Curso
 Este curso, "Paradigmas de Programación II," forma parte del programa de la Licenciatura en Informática en la Universidad de la Sierra Juárez. Nos enfocamos en aprender los conceptos avanzados de los paradigmas de programación, en particular la programación orientada a objetos (POO), programación funcional, y otros paradigmas utilizados en el desarrollo de software.
