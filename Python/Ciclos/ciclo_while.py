@@ -2,17 +2,22 @@
 Nombre: Albert Alexis Contreras Mendoza
 Fecha: 24 de Octubre del 2024
 Descripción: Bucle while
-Sintaxis
+    El ciclo while es una estructura de control fundamental en la programación que permite repetir un bloque de código mientras una determinada condición se evalúe como verdadera.
+
+    Sintaxis:
     while condicion:
-        # Código mientas la condición sea verdadera
+        # Código a ejecutar mientras la condición sea verdadera.
+
+    # Nota: No hay llaves, sino que se deja un espacio.
 """
 """
+# Ejemplo de uso del ciclo while. Imprimir los números del 1 hasta un número solicitado por consola.
 print("- - - Imprimir numero - - -")
-num_a = int(input("Ingresa un número: "))
+num_a = int(input("Ingresa un número: ")) # Se solicita un número al usuario.
 i = 1
 print(f"Los números del 1 al {num_a} son:")
 while i <= num_a:
-    print(i,end = " ")
+    print(i,end = " ") # El "end =" controla el carácter que se imprime al final de la función print()
     i=i+1
 print("\nFin de la impresión")
 """

@@ -2,6 +2,12 @@
 Nombre: Albert Alexis Contreras Mendoza
 Fecha: 24 de Octubre del 2024
 Descripción: Aplicación que simula el funcionamiento de una cuenta bancaria
+    Este programa realiza las operaciones básicas de una cuenta:
+    1) Mostrar saldo.
+    2) Ingresar dinero.
+    3) Retirar dinero.
+    0) Salir.
+    Cualquier otro caso -> Mostrar un mensaje de "opción no válida".
 """
 
 flag = 1
