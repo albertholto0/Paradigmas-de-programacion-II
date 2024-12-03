@@ -30,36 +30,44 @@ def mostrar_menu():
     print("5. Añadir varios videos de YouTube a la playlist.")
     print("6. Eliminar video de la playlist.")
     print("0. Salir.")
-    return input("\nIngresa una de las opciones: ")
+    return int(input("\nIngresa una de las opciones: "))
 
+# Función para ver la playlist en orden por videos añadidos
 def ver_playlist():
     if not playlist:
         print("\nLa playlist está vacía.")
     else:
         print("\n*** Playlist de videos ***")
+        # Usa "enumerate" para obtener el índice y el valor de cada elemento en la lista. "Start" para comenzar en 1 y no en 0
         for i, video in enumerate(playlist, start=1):
             print(f"{i}. {video}")
+
 # Mostrar de la A la Z
 def ver_ascendente():
     if not playlist:
         print("\nLa playlist está vacía.")
     else:
         print("\n*** Playlist ordenada (A-Z) ***")
+        # sorted() ordena la lista playlist en orden ascendente de forma predeterminada.
         for i, video in enumerate(sorted(playlist), start=1):
             print(f"{i}. {video}")
+
 # Mostrar de la Z la A
 def ver_descendente():
     if not playlist:
         print("\nLa playlist está vacía.")
     else:
         print("\n*** Playlist ordenada (Z-A) ***")
+        # sorted() ordena la lista playlist en orden ascendente de forma predeterminada. Con el parámetro reverse=True
         for i, video in enumerate(sorted(playlist, reverse=True), start=1):
             print(f"{i}. {video}")
+
 # Función para agregar un video
 def agregar_video():
     video = input("\nIngresa el nombre del video a añadir: ")
     playlist.append(video)
     print(f"'{video}' ha sido añadido a la playlist.")
+
 # Función para agregar varios videos
 def agregar_varios_videos():
     num_video = int(input("\nIngresa el número de videos a añadir: "))
@@ -68,6 +76,7 @@ def agregar_varios_videos():
         playlist.append(video)
         print(f"'{video}' ha sido añadido a la playlist.")
     print("Los videos han sido añadidos a la playlist")
+
 # Función para eliminar videos de la playlist
 def eliminar_video():
     if not playlist:
@@ -90,20 +99,20 @@ def eliminar_video():
 # Código a nivel de modulo
 while True:
     opcion = mostrar_menu()
-    if opcion == "0":
+    if opcion == 0:
         print("\nSaliendo del youtube...")
         break
-    elif opcion == "1":
+    elif opcion == 1:
         ver_playlist()
-    elif opcion == "2":
+    elif opcion == 2:
         ver_ascendente()
-    elif opcion == "3":
+    elif opcion == 3:
         ver_descendente()
-    elif opcion == "4":
+    elif opcion == 4:
         agregar_video()
-    elif opcion == "5":
+    elif opcion == 5:
         agregar_varios_videos()
-    elif opcion == "6":
+    elif opcion == 6:
         eliminar_video()
     else:
         print("\nOpción no válida. Por favor, intenta de nuevo.")
