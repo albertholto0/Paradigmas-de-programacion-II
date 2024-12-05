@@ -29,7 +29,7 @@ class Laptop(Sprite):
         self.laptop_rect_centery = float(self.laptop_rect.centery)
 
         # Velocidad de la laptop obtenida de las configuraciones.
-        self.laptop_speed = self.esc_alumnos_config.laptop_speed
+        self.laptop_speed = self.esc_alumnos_config.bala_speed
 
     """ Método para actualizar la posición del alumno."""
     # Al salir disparada la laptop, se debe actualizar únicamente la posición en el eje-y.

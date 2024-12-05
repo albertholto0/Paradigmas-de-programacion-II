@@ -87,7 +87,7 @@ def screen_refresh(esc_alumnos_config, screen, alumno, laptops_group, hackers_gr
     # Se verifica si la parte inferior de alguna de las laptops deja de verse en la pantalla.
     # Si es el caso, se elimina del grupo.
     for laptop in laptops_group.copy():
-        if laptop.laptop_rect.bottom < screen.get_rect().top:
+        if laptop.bala_rect.bottom < screen.get_rect().top:
             laptops_group.remove(laptop)
 
     # Se actualiza la posición y se muestra el grupo de laptops en la pantalla.

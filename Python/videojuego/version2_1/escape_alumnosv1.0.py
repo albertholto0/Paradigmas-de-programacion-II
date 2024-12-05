@@ -4,9 +4,9 @@ Cambios respecto a la versión anterior:
 - Lo anterior implica que ya no se requiere importar la clase Hacker, crear el objeto hacker y dibujarlo con
   la función screen_refresh()
 - Se crea el grupo de hackers utilizando la función Group de pygame.sprite
-- Se agrega una nueva función llamada enemy_aircraft(), dentro del archivo Game_functionalities.py, la cual se
+- Se agrega una nueva función llamada enemy_aircraft(), dentro del archivo game_functionalities.py, la cual se
   llama en este archivo y se utiliza para crear una fila de enemigos.
-- La función screen_refresh() de Game_functionalities.py también se modifica para dibujar el grupo de hackers.
+- La función screen_refresh() de game_functionalities.py también se modifica para dibujar el grupo de hackers.
 - Todavía no hay interacción con el alumno.
 """
 
@@ -49,7 +49,7 @@ def run_game():
     # Se inicializa el ciclo del juego, en donde se verifican los eventos.
     running = True
     while running:
-        # Los eventos se manejan en la función game_events(alumno) de Game_functionalities.py
+        # Los eventos se manejan en la función game_events(alumno) de game_functionalities.py
         Game_functionalities.game_events(esc_alumnos_config, screen, alumno, laptops_group)
 
         """NUEVO. La función ahora recibe el grupo de hackers, en lugar del objeto del hacker."""

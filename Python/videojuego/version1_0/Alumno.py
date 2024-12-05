@@ -26,7 +26,7 @@ class Alumno:
         self.image_rect_centery = float(self.image_rect.centery)
 
         # Velocidad del alumno obtenida de las configuraciones.
-        self.alumno_speed = self.esc_alumnos_config.alumno_speed
+        self.alumno_speed = self.esc_alumnos_config.tank_speed
 
         # Banderas de movimiento del alumno (derecha, izquierda, arriba y abajo).
         self.is_moving_right = False

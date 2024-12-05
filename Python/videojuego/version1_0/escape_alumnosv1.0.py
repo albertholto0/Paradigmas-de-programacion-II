@@ -5,13 +5,13 @@ Cambios respecto a la versión anterior:
 5 - Se modificó la velocidad de la laptop en la clase Config del archivo Config.py de 0.15 a 0.45
 
 6 - La función game_events() ahora también recibe el objeto de las configuraciones, de la pantalla y del grupo de
-7   las laptops. Por lo tanto, se modificó el archivo Game_functionalities.py
+7   las laptops. Por lo tanto, se modificó el archivo game_functionalities.py
 8 - Similarmente, la función screen_refresh() ahora recibe el grupo de laptops, en lugar del objeto de la laptop.
-9   También se modificó esta parte en el archivo Game_functionalities.py
-10 - En el archivo Game_functionalities.py también se revisa el nuevo evento de presionar el espacio para crear un
+9   También se modificó esta parte en el archivo game_functionalities.py
+10 - En el archivo game_functionalities.py también se revisa el nuevo evento de presionar el espacio para crear un
 11   nueva objeto de la clase Laptop. El evento en donde se agrega la laptop al grupo de laptops es cuando se
 12   presiona la tecla 'espacio'.
-13 - En la función screen_refresh(), del archivo Game_functionalities.py, se actualiza la posición y se muestra el
+13 - En la función screen_refresh(), del archivo game_functionalities.py, se actualiza la posición y se muestra el
 14   grupo de laptops en la pantalla.
 15 - Como resultado, se debería mostrar una laptop con una dirección hacia arriba cada que se presiona 'espacio'.
 """
@@ -52,7 +52,7 @@ def run_game():
     running = True
     while running:
         """NUEVO. La función ahora también recibe el objeto de las configuraciones, de la pantalla y del grupo de las laptops."""
-        # Los eventos se manejan en la función game_events(alumno) de Game_functionalities.py
+        # Los eventos se manejan en la función game_events(alumno) de game_functionalities.py
         Game_functionalities.game_events(esc_alumnos_config, screen, alumno, laptops_group)
 
         """NUEVO. La función ahora recibe el grupo de las laptops."""
