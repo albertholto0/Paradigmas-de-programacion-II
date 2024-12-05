@@ -11,7 +11,7 @@ class Config:
         self.background_color = (0,0,0)  # Color de fondo.
 
         # Configuraciones del alumno
-        self.tank_speed = 0.5  # Velocidad del movimiento del alumno. Colocar float.
+        self.tank_speed = 0.3  # Velocidad del movimiento del alumno. Colocar float.
 
         # Configuraciones de la laptop (arma)
-        self.bala_speed = 0.45
+        self.bala_speed = 0.7
