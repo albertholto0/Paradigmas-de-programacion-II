@@ -27,25 +27,25 @@ def game_events(esc_alumnos_config, screen, alumno, laptops_group):
         elif event.type == pygame.KEYUP:
             game_events_keyup(event, alumno)
 
-""" Funci\u00F3n que administra el evento cuando se presiona una tecla."""
+""" Funcion que administra el evento cuando se presiona una tecla."""
 def game_events_keydown(event, esc_alumnos_config, screen, alumno, laptops_group):
-    # Se presiona la tecla 'derecha', implicando un movimiento en esta direcci\u00F3n.
+    # Se presiona la tecla 'derecha', implicando un movimiento en esta dirección.
     if event.key == pygame.K_RIGHT:
         alumno.is_moving_right = True
 
-    # Se presiona la tecla 'izquierda', implicando un movimiento en esta direcci\u00F3n.
+    # Se presiona la tecla 'izquierda', implicando un movimiento en esta dirección.
     elif event.key == pygame.K_LEFT:
         alumno.is_moving_left = True
 
-    # Se presiona la tecla 'arriba', implicando un movimiento en esta direcci\u00F3n.
+    # Se presiona la tecla 'arriba', implicando un movimiento en esta dirección.
     elif event.key == pygame.K_UP:
         alumno.is_moving_up = True
 
-    # Se presiona la tecla 'abajo', implicando un movimiento en esta direcci\u00F3n.
+    # Se presiona la tecla 'abajo', implicando un movimiento en esta dirección.
     elif event.key == pygame.K_DOWN:
         alumno.is_moving_down = True
 
-    # Si se presiona la tecla 'espacio' y el n\u00FAmero de laptops es menor al permitido en las configuraciones,
+    # Si se presiona la tecla 'espacio' y el numero de laptops es menor al permitido en las configuraciones,
     # se crea un nuevo objeto de la clase Laptop y se agrega al grupo de laptops.
     elif event.key == pygame.K_SPACE and (len(laptops_group) + 1) <= esc_alumnos_config.max_laptops:
         new_laptop = Laptop(esc_alumnos_config, screen, alumno)

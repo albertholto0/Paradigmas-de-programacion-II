@@ -4,8 +4,6 @@ import pygame
 """NUEVO"""
 from Bala import Bala
 
-""" NUEVO. Ahora también recibe el objeto de las configuraciones, la pantalla y el grupo de balas, ya que
-se genera una bala al presionar el 'espacio'"""
 """ Función que administra los eventos del juego."""
 def game_events(tank_config, screen, tanque1, tanque2, balas_group):
     # Se revisan los eventos del juego.
