@@ -33,22 +33,41 @@ class Tanque:
     """ Método para actualizar la posición del tanque. """
 
     def update_pos(self):
-        # Se actualiza la posición del tanque según las teclas presionadas.
-        if self.is_moving_right and not (self.is_moving_left or self.is_moving_up or self.is_moving_down):
+        # Movimiento hacia la derecha
+        if (
+                self.is_moving_right
+                and not (self.is_moving_left or self.is_moving_up or self.is_moving_down)
+                and (self.image_rect.right < self.screen_rect.right)
+        ):
             self.image_rect_centerx += self.tank_speed
-            self.direction = 'right'  # Actualiza la dirección cuando se mueve a la derecha
+            self.direction = 'right'
 
-        elif self.is_moving_left and not (self.is_moving_right or self.is_moving_up or self.is_moving_down):
+        # Movimiento hacia la izquierda
+        elif (
+                self.is_moving_left
+                and not (self.is_moving_right or self.is_moving_up or self.is_moving_down)
+                and (self.image_rect.left > self.screen_rect.left)
+        ):
             self.image_rect_centerx -= self.tank_speed
-            self.direction = 'left'  # Actualiza la dirección cuando se mueve a la izquierda
+            self.direction = 'left'
 
-        elif self.is_moving_up and not (self.is_moving_down or self.is_moving_left or self.is_moving_right):
+        # Movimiento hacia arriba
+        elif (
+                self.is_moving_up
+                and not (self.is_moving_down or self.is_moving_left or self.is_moving_right)
+                and (self.image_rect.top > self.screen_rect.top)
+        ):
             self.image_rect_centery -= self.tank_speed
-            self.direction = 'up'  # Actualiza la dirección cuando se mueve hacia arriba
+            self.direction = 'up'
 
-        elif self.is_moving_down and not (self.is_moving_up or self.is_moving_left or self.is_moving_right):
+        # Movimiento hacia abajo
+        elif (
+                self.is_moving_down
+                and not (self.is_moving_up or self.is_moving_left or self.is_moving_right)
+                and (self.image_rect.bottom < self.screen_rect.bottom)
+        ):
             self.image_rect_centery += self.tank_speed
-            self.direction = 'down'  # Actualiza la dirección cuando se mueve hacia abajo
+            self.direction = 'down'
 
         # Actualizar las coordenadas del rectángulo
         self.image_rect.centerx = self.image_rect_centerx
@@ -56,6 +75,7 @@ class Tanque:
 
         # Cambiar la rotación del tanque en función de la dirección
         self.rotate_image()
+
     def rotate_image(self):
         """Metodo para rotar la imagen del tanque según la dirección de movimiento."""
         if self.direction == 'right':
