@@ -74,38 +74,36 @@ def game_events_keyup(event, tanque1, tanque2):
     elif event.key == pygame.K_s:
         tanque2.is_moving_down = False
 
+# Función para verificar la colisión entre los tanques.
+def check_tank_collision(tanque1, tanque2):
+    # Verifica si los rectángulos de los tanques colisionan.
+    return tanque1.image_rect.colliderect(tanque2.image_rect)
+
 # Función que administra la actualización de la pantalla.
 def screen_refresh(tank_config, screen, tanque1, tanque2, balas_group):
-    # Cargar la imagen de fondo.
     background = pygame.image.load(tank_config.background_image_path)
-    background = pygame.transform.scale(background, (
-        tank_config.screen_width, tank_config.screen_height))  # Escalar la imagen a la resolución de la pantalla.
-
-    # Se muestra la imagen de fondo en la ventana.
+    background = pygame.transform.scale(background, (tank_config.screen_width, tank_config.screen_height))
     screen.blit(background, (0, 0))
 
-    # Se actualizan las posiciones de los dos tanques.
-    tanque1.update_pos()
-    tanque2.update_pos()
+    # Guardar posiciones previas de los tanques
+    prev_pos_tanque1 = tanque1.image_rect.topleft
+    prev_pos_tanque2 = tanque2.image_rect.topleft
 
-    # Se muestran los tanques en la pantalla.
+    # Actualizar posiciones de los tanques con colisión verificada
+    tanque1.update_pos(tanque2)
+    tanque2.update_pos(tanque1)
+
+    # Mostrar los tanques
     tanque1.blitme()
     tanque2.blitme()
 
-    # Se verifica si alguna bala ha salido de la pantalla y se elimina del grupo.
+    # Actualizar balas
     for bala in balas_group.copy():
-        if not screen.get_rect().colliderect(bala.bala_rect):  # Verifica si la bala está fuera del área visible.
+        if not screen.get_rect().colliderect(bala.bala_rect):
             balas_group.remove(bala)
 
-    # Se actualiza la posición y se muestra el grupo de balas en la pantalla.
     for bala in balas_group.sprites():
         bala.update_pos()
         bala.blitme()
 
-    for bala in balas_group.copy():
-        if not screen.get_rect().colliderect(bala.bala_rect):
-            print(f"Bala eliminada: {bala}")  # Mensaje de depuración.
-            balas_group.remove(bala)
-
-    # Se actualiza la pantalla, dando la impresión visual de movimiento.
-    pygame.display.flip()  # Actualiza la pantalla
+    pygame.display.flip()

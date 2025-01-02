@@ -3,99 +3,88 @@ import pygame
 class Tanque:
     """ Constructor para inicializar al tanque y establecer su posición inicial en la pantalla. """
     def __init__(self, screen, tank_config, image_path="media/tanque_verde.png", position=None):
-        # Se crean los objetos de la pantalla y de las configuraciones del juego.
         self.screen = screen
         self.tank_config = tank_config
-
-        # Se carga la imagen y obtiene el Rect (se utiliza para representar coordenadas rectangulares).
         self.image = pygame.image.load(image_path)
         self.image_original = self.image
         self.image_rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
-        # Posicionar el tanque según el parámetro `position` o usar valores predeterminados.
         if position:
             self.image_rect.centerx, self.image_rect.centery = position
         else:
-            # Predeterminado: centro inferior de la pantalla.
             self.image_rect.centerx = self.screen_rect.centerx
             self.image_rect.bottom = self.screen_rect.bottom
 
-        # Coordenadas flotantes para movimiento suave
         self.image_rect_centerx = float(self.image_rect.centerx)
         self.image_rect_centery = float(self.image_rect.centery)
 
         self.tank_speed = self.tank_config.tank_speed
 
-        # Banderas de movimiento
+        # Flags de movimiento
         self.is_moving_right = False
         self.is_moving_left = False
         self.is_moving_up = False
         self.is_moving_down = False
 
-        # Dirección inicial del tanque
         self.direction = 'down'
 
+    def update_pos(self, otro_tanque):
+        """ Actualiza la posición del tanque y verifica colisiones con otro tanque y los bordes de la pantalla. """
+        prev_rect = self.image_rect.copy()  # Guardamos la posición previa del tanque
 
-    """ Método para actualizar la posición del tanque. """
-
-    def update_pos(self):
-        # Movimiento hacia la derecha
-        if (
-                self.is_moving_right
-                and not (self.is_moving_left or self.is_moving_up or self.is_moving_down)
-                and (self.image_rect.right < self.screen_rect.right)
-        ):
+        # Verificamos la posible colisión antes de mover al tanque
+        if self.is_moving_right and not self.collides_with_other_tank(otro_tanque, "right") and self.image_rect.right < self.screen_rect.right:
             self.image_rect_centerx += self.tank_speed
             self.direction = 'right'
-
-        # Movimiento hacia la izquierda
-        elif (
-                self.is_moving_left
-                and not (self.is_moving_right or self.is_moving_up or self.is_moving_down)
-                and (self.image_rect.left > self.screen_rect.left)
-        ):
+        elif self.is_moving_left and not self.collides_with_other_tank(otro_tanque, "left") and self.image_rect.left > self.screen_rect.left:
             self.image_rect_centerx -= self.tank_speed
             self.direction = 'left'
-
-        # Movimiento hacia arriba
-        elif (
-                self.is_moving_up
-                and not (self.is_moving_down or self.is_moving_left or self.is_moving_right)
-                and (self.image_rect.top > self.screen_rect.top)
-        ):
+        elif self.is_moving_up and not self.collides_with_other_tank(otro_tanque, "up") and self.image_rect.top > self.screen_rect.top:
             self.image_rect_centery -= self.tank_speed
             self.direction = 'up'
-
-        # Movimiento hacia abajo
-        elif (
-                self.is_moving_down
-                and not (self.is_moving_up or self.is_moving_left or self.is_moving_right)
-                and (self.image_rect.bottom < self.screen_rect.bottom)
-        ):
+        elif self.is_moving_down and not self.collides_with_other_tank(otro_tanque, "down") and self.image_rect.bottom < self.screen_rect.bottom:
             self.image_rect_centery += self.tank_speed
             self.direction = 'down'
 
-        # Actualizar las coordenadas del rectángulo
+        # Actualizamos el rectángulo con la nueva posición
         self.image_rect.centerx = self.image_rect_centerx
         self.image_rect.centery = self.image_rect_centery
 
-        # Cambiar la rotación del tanque en función de la dirección
+        # Aseguramos que la imagen del tanque se rote correctamente según la dirección
         self.rotate_image()
 
+    def collides_with_other_tank(self, otro_tanque, direction):
+        """ Verifica si el tanque se movería hacia otro tanque. """
+        temp_rect = self.image_rect.copy()
+
+        # Dependiendo de la dirección, movemos temporalmente el rectángulo y verificamos la colisión
+        if direction == "right":
+            temp_rect.centerx += self.tank_speed
+        elif direction == "left":
+            temp_rect.centerx -= self.tank_speed
+        elif direction == "up":
+            temp_rect.centery -= self.tank_speed
+        elif direction == "down":
+            temp_rect.centery += self.tank_speed
+
+        # Usamos el rectángulo de la imagen para la colisión
+        return temp_rect.colliderect(otro_tanque.image_rect)
+
     def rotate_image(self):
-        """Metodo para rotar la imagen del tanque según la dirección de movimiento."""
+        """ Rota la imagen del tanque según la dirección del movimiento """
         if self.direction == 'right':
-            self.image = pygame.transform.rotate(self.image_original, 270)  # Rotar 270° hacia la derecha
+            self.image = pygame.transform.rotate(self.image_original, 270)
         elif self.direction == 'left':
-            self.image = pygame.transform.rotate(self.image_original, 90)  # Rotar 90° hacia la izquierda
+            self.image = pygame.transform.rotate(self.image_original, 90)
         elif self.direction == 'up':
-            self.image = self.image_original  # Mantener la imagen en su posición original
+            self.image = self.image_original
         elif self.direction == 'down':
-            self.image = pygame.transform.rotate(self.image_original, 180)  # Rotar 180° hacia abajo
+            self.image = pygame.transform.rotate(self.image_original, 180)
 
         self.image_rect = self.image.get_rect(center=self.image_rect.center)
 
-    """ Mét0d0 que dibuja el tanque en la pantalla en su ubicación actual. """
     def blitme(self):
+        """ Dibuja el tanque en la pantalla. """
         self.screen.blit(self.image, self.image_rect)
+
