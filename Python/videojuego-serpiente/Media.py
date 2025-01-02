@@ -10,18 +10,18 @@ class Media:
 
         ####################### MÚSICA Y SONIDOS #######################
         # Se carga la música de fondo del juego.
-        pygame.mixer.music.load("../media/aula.unsij.edu.mx/moodle/draftfile.php/19888/user/draft/583940223/music.mp3")
+        pygame.mixer.music.load("media/musica_fondo.mp3")
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.65)
 
         # Se carga el sonido de inicio de la pantalla.
-        self.start_sound = pygame.mixer.Sound("../media/aula.unsij.edu.mx/moodle/draftfile.php/19888/user/draft/583940223/start_sound.wav")
+        self.start_sound = pygame.mixer.Sound("media/inicio.mp3")
 
         # Se carga el sonido cuando la serpiente come.
-        self.eaten_sound = pygame.mixer.Sound("../media/aula.unsij.edu.mx/moodle/draftfile.php/19888/user/draft/466922176/eaten_sound.wav")
+        self.eaten_sound = pygame.mixer.Sound("media/comer.mp3")
 
         # Se carga el sonido de fin del juego.
-        self.game_over_sound = pygame.mixer.Sound("../media/aula.unsij.edu.mx/moodle/draftfile.php/19888/user/draft/583940223/game_over_sound.wav")
+        self.game_over_sound = pygame.mixer.Sound("media/game_over.mp3")
 
         ####################### IMÁGENES #######################
         # Se obtienen valores de la pantalla y se obtiene su rect.
@@ -30,18 +30,18 @@ class Media:
         self.screen_rect = self.screen.get_rect()
 
         # Se carga el fondo del videojuego, se reescala al tamaño de la pantalla y se obtiene su rect.
-        self.background_image = pygame.image.load("../media/background.jpg")
+        self.background_image = pygame.image.load("media/background_image.jpg")
         self.background_image = pygame.transform.scale(self.background_image, (self.screen_width, self.screen_height))
         self.background_rect = self.background_image.get_rect()
 
         # Se carga la imagen del fin del juego, se obtiene su rect y se ajusta la posición.
-        self.game_over_image = pygame.image.load("../media/game_over_image.png")
+        self.game_over_image = pygame.image.load("media/game_over_image.png")
         self.game_over_rect = self.game_over_image.get_rect()
         self.game_over_rect.centerx = self.screen_rect.centerx
         self.game_over_rect.top = self.screen_height // 12.5
 
         # Se carga la imagen de los créditos finales.
-        self.credits_image = pygame.image.load("../media/credits.png")
+        self.credits_image = pygame.image.load("media/credits.png")
         self.credits_rect = self.credits_image.get_rect()
         self.credits_rect.centerx = self.screen_rect.centerx
         self.credits_rect.bottom = self.screen_height // 12.5

@@ -84,7 +84,7 @@ def check_collisions(snake_game_configurations, screen, snake_body, food_group, 
 
     # Se verifican las colisiones cabeza de la serpiente - serpiente.
     if not game_over:
-        for i in range(1, body.size):
+        for i in range(1, body_size):
             if snake_head.x == snake_body.sprites()[i].x and snake_head.y == snake_body.sprites()[i].y:
                 game_over = True
                 break
@@ -144,7 +144,7 @@ def screen_refresh(snake_game_configurations, clock, snake_body, food_group, med
     """NUEVO."""
     # Se muestra el marcador, el cual es el tamaño del cuerpo de la serpiente.
     score = len(snake_body) - 1
-    media.update_score(score)
+    media.update_scoreboard(score)
 
     # Se dibuja la serpiente.
     for snake in snake_body.sprites():
