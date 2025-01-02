@@ -18,8 +18,6 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group):
         elif event.type == pygame.KEYUP:
             game_events_keyup(event, tanque1, tanque2)
 
-""" NUEVO. Ahora también recibe el objeto de las configuraciones, la pantalla y el grupo de balas"""
-""" Función que administra el evento cuando se presiona una tecla."""
 def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group):
     # Tanque 1 (movimiento con las teclas de flecha)
     if event.key == pygame.K_RIGHT:

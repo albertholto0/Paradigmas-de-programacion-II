@@ -1,5 +1,4 @@
 class Config:
-
     """Constructor"""
     def __init__(self):
         self.game_title = "Tank Battle"  # Título del juego.
