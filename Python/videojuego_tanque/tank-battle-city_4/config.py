@@ -11,4 +11,4 @@ class Config:
         self.tank_speed = 7  # Velocidad del movimiento del alumno. Colocar float.
 
         # Configuraciones de la laptop (arma)
-        self.bala_speed = 11
+        self.bala_speed = 16

@@ -3,7 +3,7 @@ import sys
 import pygame
 from Bala import Bala
 
-def game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo):
+def game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio):
     # Se revisan los eventos del juego.
     for event in pygame.event.get():
         # El evento es un clic en cerrar el juego.
@@ -12,13 +12,13 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_dispa
 
         # El evento es presionar una tecla.
         elif event.type == pygame.KEYDOWN:
-            game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo)
+            game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio)
 
         # El evento es soltar una tecla.
         elif event.type == pygame.KEYUP:
             game_events_keyup(event, tanque1, tanque2)
 
-def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo):
+def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio):
     # Tanque 1 (movimiento con las teclas de flecha)
     if event.key == pygame.K_RIGHT:
         tanque1.is_moving_right = True
@@ -47,6 +47,7 @@ def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_grou
             sonido_disparo.play()
         else:
             print("Tanque 1 no puede disparar más balas.")
+            sonido_vacio.play()
 
     elif event.key == pygame.K_SPACE:
         if tanque2.balas_disparadas < tanque2.max_balas:
@@ -56,6 +57,7 @@ def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_grou
             sonido_disparo.play()
         else:
             print("Tanque 2 no puede disparar más balas.")
+            sonido_vacio.play()
 
 # Función que administra el evento cuando se presiona una tecla.
 def game_events_keyup(event, tanque1, tanque2):

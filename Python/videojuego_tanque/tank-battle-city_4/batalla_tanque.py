@@ -23,6 +23,10 @@ def run_game():
     sonido_disparo = pygame.mixer.Sound("media/disparo.mp3")  # Cambia a la ruta de tu archivo de sonido
     sonido_disparo.set_volume(0.7)  # Ajusta el volumen del sonido de disparo
 
+    # Cargar sonido de vacio
+    sonido_vacio = pygame.mixer.Sound("media/vacio.mp3")
+    sonido_vacio.set_volume(0.7)
+
     # Se dibuja la ventana principal con la resolución dada en las configuraciones.
     screen_size = (tank_config.screen_width, tank_config.screen_height)
     screen = pygame.display.set_mode(screen_size)
@@ -46,7 +50,7 @@ def run_game():
     while running:
         # Manejo de eventos
         # Los eventos se manejan en la función game_events (tanque1, tanque2) de game_functionalities.py
-        game_functionalities.game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo)
+        game_functionalities.game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio)
 
         # Se actualizan los elementos de la pantalla en la función screen_refresh.
         game_functionalities.screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group)
