@@ -4,7 +4,7 @@ from Tanque import Tanque
 import game_functionalities
 from pygame.sprite import Group
 import sys
-import time  # Para pausar el juego
+import time
 
 """ Se define la función para inicializar el juego, las configuraciones y crear la pantalla. """
 def run_game():
@@ -45,10 +45,6 @@ def run_game():
     running = True
     while running:
         # Manejo de eventos
-
-
-
-        """ La función ahora también recibe los dos tanques y el grupo de balas. """
         # Los eventos se manejan en la función game_events (tanque1, tanque2) de game_functionalities.py
         game_functionalities.game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo)
 
@@ -61,8 +57,8 @@ def run_game():
 
         """ Verifica si alguno de los tanques tiene vida <= 0 y detiene el juego. """
         if tanque1.vida <= 0 or tanque2.vida <= 0:
-            print("Un tanque ha perdido toda su vida. El juego se cerrará en 3 segundos.")
-            time.sleep(3)  # Pausa de 3 segundos
+            print("Un tanque ha perdido toda su vida. El juego se cerrará en 2 segundos.")
+            time.sleep(2)  # Pausa de 3 segundos
             pygame.quit()
             sys.exit()
 
