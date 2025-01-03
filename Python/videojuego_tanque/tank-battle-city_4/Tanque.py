@@ -9,6 +9,7 @@ class Tanque:
         self.image_original = self.image
         self.image_rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
+        self.vida = 100
 
         if position:
             self.image_rect.centerx, self.image_rect.centery = position
@@ -31,6 +32,9 @@ class Tanque:
 
     def update_pos(self, otro_tanque):
         """ Actualiza la posición del tanque y verifica colisiones con otro tanque y los bordes de la pantalla. """
+        if self.vida <= 0:
+            return  # Si la vida es 0, no se mueve el tanque
+
         prev_rect = self.image_rect.copy()  # Guardamos la posición previa del tanque
 
         # Verificamos la posible colisión antes de mover al tanque
@@ -87,4 +91,3 @@ class Tanque:
     def blitme(self):
         """ Dibuja el tanque en la pantalla. """
         self.screen.blit(self.image, self.image_rect)
-
