@@ -39,17 +39,23 @@ def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_grou
     elif event.key == pygame.K_s:
         tanque2.is_moving_down = True
 
-    # Crear una bala cuando se presiona la tecla Enter (Tanque 1)
     elif event.key == pygame.K_RETURN:
-        new_bala = Bala(tank_config, screen, tanque1)
-        balas_group.add(new_bala)
-        sonido_disparo.play()  # Reproducir sonido de disparo
+        if tanque1.balas_disparadas < tanque1.max_balas:
+            new_bala = Bala(tank_config, screen, tanque1)
+            balas_group.add(new_bala)
+            tanque1.balas_disparadas += 1
+            sonido_disparo.play()
+        else:
+            print("Tanque 1 no puede disparar más balas.")
 
-    # Crear una bala cuando se presiona la tecla espacio (Tanque 2)
     elif event.key == pygame.K_SPACE:
-        new_bala = Bala(tank_config, screen, tanque2)
-        balas_group.add(new_bala)
-        sonido_disparo.play()  # Reproducir sonido de disparo
+        if tanque2.balas_disparadas < tanque2.max_balas:
+            new_bala = Bala(tank_config, screen, tanque2)
+            balas_group.add(new_bala)
+            tanque2.balas_disparadas += 1
+            sonido_disparo.play()
+        else:
+            print("Tanque 2 no puede disparar más balas.")
 
 # Función que administra el evento cuando se presiona una tecla.
 def game_events_keyup(event, tanque1, tanque2):
@@ -79,35 +85,41 @@ def check_tank_collision(tanque1, tanque2):
     return tanque1.image_rect.colliderect(tanque2.image_rect)
 
 # Parte de mostrar_niveles_vida en game_functionalities.py
-def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2):
-    font = pygame.font.Font("media/Pixeled.ttf", 14)  # Fuente por defecto, tamaño 36
+def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2, tanque1, tanque2):
+    font = pygame.font.Font("media/Pixeled.ttf", 14)  # Fuente personalizada
+    # Mostrar niveles de vida
     vida_texto_2 = font.render(f"Tanque Verde: {vida_tanque1}", True, (13, 69, 23))
     vida_texto_1 = font.render(f"Tanque Arena: {vida_tanque2}", True, (92, 56, 2))
 
-    # Mostrar los textos en las posiciones correspondientes
-    screen.blit(vida_texto_1, (10, 10))  # Superior izquierda
-    screen.blit(vida_texto_2, (screen.get_width() - vida_texto_2.get_width() - 10, 10))  # Superior derecha
+    # Mostrar contador de balas
+    balas_texto_2 = font.render(f"Balas: {tanque1.max_balas - tanque1.balas_disparadas}", True, (13, 69, 23))
+    balas_texto_1 = font.render(f"Balas: {tanque2.max_balas - tanque2.balas_disparadas}", True, (92, 56, 2))
+
+    # Posiciones de los textos
+    screen.blit(vida_texto_1, (10, 10))  # Vida del Tanque Arena (izquierda)
+    screen.blit(balas_texto_1, (10, 30))  # Balas del Tanque Arena (debajo de la vida)
+
+    screen.blit(vida_texto_2,
+                (screen.get_width() - vida_texto_2.get_width() - 10, 10))  # Vida del Tanque Verde (derecha)
+    screen.blit(balas_texto_2, (screen.get_width() - balas_texto_2.get_width() - 10, 30))  # Balas del Tanque Verde
 
 def manejar_colisiones(tanque1, tanque2, balas_group):
-    for bala in balas_group:
-        # Actualizamos la posición de la bala
-        bala.update_pos()
-
-        # Verificamos si la bala está fuera de la pantalla
-        if not bala.bala_rect.colliderect(bala.screen.get_rect()):
+    """Maneja las colisiones de balas con los tanques y elimina las balas fuera de la pantalla."""
+    for bala in list(balas_group):  # Usamos una lista para evitar problemas al eliminar elementos durante la iteración
+        # Verificar si la bala está fuera de la pantalla
+        if bala.bala_rect.bottom < 0 or bala.bala_rect.top > bala.screen_rect.height or \
+           bala.bala_rect.right < 0 or bala.bala_rect.left > bala.screen_rect.width:
             balas_group.remove(bala)
-            continue  # Pasamos a la siguiente bala
+            continue
 
         # Verificar colisiones con los tanques
-        if tanque1.image_rect.colliderect(bala.bala_rect) and tanque1.vida > 0:
-            tanque1.vida -= 10  # Reducir vida de tanque1
-            balas_group.remove(bala)  # Eliminar la bala
-            break  # Salir del bucle después de la colisión
+        if bala.tanque != tanque1 and tanque1.image_rect.colliderect(bala.bala_rect):
+            tanque1.vida -= 10
+            balas_group.remove(bala)
+        elif bala.tanque != tanque2 and tanque2.image_rect.colliderect(bala.bala_rect):
+            tanque2.vida -= 10
+            balas_group.remove(bala)
 
-        elif tanque2.image_rect.colliderect(bala.bala_rect) and tanque2.vida > 0:
-            tanque2.vida -= 10  # Reducir vida de tanque2
-            balas_group.remove(bala)  # Eliminar la bala
-            break  # Salir del bucle después de la colisión
 
 # Función que administra la actualización de la pantalla.
 def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group):
@@ -131,12 +143,15 @@ def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group):
     for bala in balas_group.copy():
         if not screen.get_rect().colliderect(bala.bala_rect):
             balas_group.remove(bala)
+            if bala.origen == tanque1:
+                tanque1.balas_disparadas = max(0, tanque1.balas_disparadas - 1)
+            elif bala.origen == tanque2:
+                tanque2.balas_disparadas = max(0, tanque2.balas_disparadas - 1)
 
     for bala in balas_group.sprites():
         bala.update_pos()
         bala.blitme()
 
-    # En game_functionalities.py, dentro de screen_refresh
-    mostrar_niveles_vida(screen, tanque1.vida, tanque2.vida)
+    mostrar_niveles_vida(screen, tanque1.vida, tanque2.vida, tanque1, tanque2)
     clock.tick(tank_config.fps)
     pygame.display.flip()

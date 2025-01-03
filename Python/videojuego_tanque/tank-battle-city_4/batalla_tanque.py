@@ -51,7 +51,7 @@ def run_game():
         # Se actualizan los elementos de la pantalla en la función screen_refresh.
         game_functionalities.screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group)
         game_functionalities.manejar_colisiones(tanque1, tanque2, balas_group)
-        game_functionalities.mostrar_niveles_vida(screen, tanque1, tanque2)
+        game_functionalities.mostrar_niveles_vida(screen,tanque1.vida,tanque2.vida,tanque1,tanque2)
         # Actualiza la posición de las balas
         balas_group.update()
 

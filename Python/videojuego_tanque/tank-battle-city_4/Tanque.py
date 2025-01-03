@@ -10,6 +10,8 @@ class Tanque:
         self.image_rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.vida = 100
+        self.max_balas = 10  # Límite de balas
+        self.balas_disparadas = 0  # Contador de balas disparadas
 
         if position:
             self.image_rect.centerx, self.image_rect.centery = position
