@@ -2,8 +2,9 @@
 import sys
 import pygame
 from Bala import Bala
+from recursos import generar_recursos
 
-def game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio):
+def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, municiones, sonido_disparo, sonido_vacio):
     # Se revisan los eventos del juego.
     for event in pygame.event.get():
         # El evento es un clic en cerrar el juego.
@@ -17,6 +18,9 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_dispa
         # El evento es soltar una tecla.
         elif event.type == pygame.KEYUP:
             game_events_keyup(event, tanque1, tanque2)
+
+        elif event.type == pygame.USEREVENT:
+            generar_recursos(screen, botiquines, municiones)
 
 def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio):
     # Tanque 1 (movimiento con las teclas de flecha)
