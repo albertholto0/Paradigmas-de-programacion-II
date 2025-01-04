@@ -40,5 +40,4 @@ class Food(Sprite):
     """ Método que dibuja un bloque de la serpiente en la pantalla en su ubicación actual."""
     def blitme(self):
         # Se dibuja el bloque como un rectángulo, de la misma forma que en la clase Snake.
-        pygame.draw.rect(self.screen, self.color,
-                         [self.x, self.y, self.food_block_size, self.food_block_size])
+        pygame.draw.rect(self.screen, self.color,[self.x, self.y, self.food_block_size, self.food_block_size])

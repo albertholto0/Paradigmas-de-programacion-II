@@ -104,17 +104,13 @@ def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2, tanque1, tanque2):
     screen.blit(vida_texto_2,
                 (screen.get_width() - vida_texto_2.get_width() - 10, 10))  # Vida del Tanque Verde (derecha)
     screen.blit(balas_texto_2, (screen.get_width() - balas_texto_2.get_width() - 10, 30))  # Balas del Tanque Verde
-
-def manejar_colisiones(tanque1, tanque2, balas_group):
-    """Maneja las colisiones de balas con los tanques y elimina las balas fuera de la pantalla."""
-    for bala in list(balas_group):  # Usamos una lista para evitar problemas al eliminar elementos durante la iteración
-        # Verificar si la bala está fuera de la pantalla
+def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion):
+    for bala in list(balas_group):
         if bala.bala_rect.bottom < 0 or bala.bala_rect.top > bala.screen_rect.height or \
-           bala.bala_rect.right < 0 or bala.bala_rect.left > bala.screen_rect.width:
+                bala.bala_rect.right < 0 or bala.bala_rect.left > bala.screen_rect.width:
             balas_group.remove(bala)
             continue
 
-        # Verificar colisiones con los tanques
         if bala.tanque != tanque1 and tanque1.image_rect.colliderect(bala.bala_rect):
             tanque1.vida -= 10
             balas_group.remove(bala)
@@ -122,26 +118,43 @@ def manejar_colisiones(tanque1, tanque2, balas_group):
             tanque2.vida -= 10
             balas_group.remove(bala)
 
+    # Manejar colisiones con botiquines
+    for botiquin in list(botiquines):
+        if tanque1.image_rect.colliderect(botiquin.rect):
+            tanque1.vida = min(100, tanque1.vida + 20)  # Aumenta la vida, sin superar el máximo de 100
+            botiquines.remove(botiquin)
+            sonido_botiquin.play()
+        elif tanque2.image_rect.colliderect(botiquin.rect):
+            tanque2.vida = min(100, tanque2.vida + 20)
+            botiquines.remove(botiquin)
+            sonido_botiquin.play()
+
+    # Manejar colisiones con municiones
+    for municion in list(municiones):
+        if tanque1.image_rect.colliderect(municion.rect):
+            tanque1.balas_disparadas = max(0, tanque1.balas_disparadas - 5)  # Restaura balas, sin superar el límite
+            municiones.remove(municion)
+            sonido_municion.play()
+        elif tanque2.image_rect.colliderect(municion.rect):
+            tanque2.balas_disparadas = max(0, tanque2.balas_disparadas - 5)
+            municiones.remove(municion)
+            sonido_municion.play()
 
 # Función que administra la actualización de la pantalla.
-def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group):
+def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones):
     background = pygame.image.load(tank_config.background_image_path)
     background = pygame.transform.scale(background, (tank_config.screen_width, tank_config.screen_height))
     screen.blit(background, (0, 0))
 
-    # Guardar posiciones previas de los tanques
     prev_pos_tanque1 = tanque1.image_rect.topleft
     prev_pos_tanque2 = tanque2.image_rect.topleft
 
-    # Actualizar posiciones de los tanques con colisión verificada
     tanque1.update_pos(tanque2)
     tanque2.update_pos(tanque1)
 
-    # Mostrar los tanques
     tanque1.blitme()
     tanque2.blitme()
 
-    # Actualizar balas
     for bala in balas_group.copy():
         if not screen.get_rect().colliderect(bala.bala_rect):
             balas_group.remove(bala)
@@ -153,6 +166,12 @@ def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group):
     for bala in balas_group.sprites():
         bala.update_pos()
         bala.blitme()
+
+    for botiquin in botiquines.sprites():
+        botiquin.blitme()
+
+    for municion in municiones.sprites():
+        municion.blitme()
 
     mostrar_niveles_vida(screen, tanque1.vida, tanque2.vida, tanque1, tanque2)
     clock.tick(tank_config.fps)

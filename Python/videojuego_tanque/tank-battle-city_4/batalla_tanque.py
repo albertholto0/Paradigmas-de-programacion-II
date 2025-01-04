@@ -2,6 +2,7 @@ import pygame
 from config import Config
 from Tanque import Tanque
 import game_functionalities
+from recursos import crear_recursos
 from pygame.sprite import Group
 import sys
 import time
@@ -27,6 +28,15 @@ def run_game():
     sonido_vacio = pygame.mixer.Sound("media/vacio.mp3")
     sonido_vacio.set_volume(0.7)
 
+    # Sonidos botiquin y munición
+    sonido_botiquin = pygame.mixer.Sound("media/recoger_botiquin.mp3")
+    sonido_municion = pygame.mixer.Sound("media/recoger_municion.mp3")
+    sonido_botiquin.set_volume(0.7)
+    sonido_municion.set_volume(0.7)
+
+    # Creación cada 15 segundos
+    pygame.time.set_timer(pygame.USEREVENT, 15000)
+
     # Se dibuja la ventana principal con la resolución dada en las configuraciones.
     screen_size = (tank_config.screen_width, tank_config.screen_height)
     screen = pygame.display.set_mode(screen_size)
@@ -45,16 +55,18 @@ def run_game():
     # Se crea un grupo para guardar las balas de ambos tanques.
     balas_group = Group()
 
+    botiquines = crear_recursos(screen, 5, 'botiquin', "media/botiquin.png")
+    municiones = crear_recursos(screen, 5, 'municion', 'media/municion.png')
+
     # Se inicializa el ciclo del juego, en donde se verifican los eventos.
     running = True
     while running:
-        # Manejo de eventos
         # Los eventos se manejan en la función game_events (tanque1, tanque2) de game_functionalities.py
         game_functionalities.game_events(tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio)
 
         # Se actualizan los elementos de la pantalla en la función screen_refresh.
-        game_functionalities.screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group)
-        game_functionalities.manejar_colisiones(tanque1, tanque2, balas_group)
+        game_functionalities.screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones)
+        game_functionalities.manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion)
         game_functionalities.mostrar_niveles_vida(screen,tanque1.vida,tanque2.vida,tanque1,tanque2)
         # Actualiza la posición de las balas
         balas_group.update()
@@ -65,7 +77,6 @@ def run_game():
             time.sleep(2)  # Pausa de 3 segundos
             pygame.quit()
             sys.exit()
-
 """ %%%%%%% CÓDIGO A NIVEL DE MÓDULO %%%%%%%%%%%%%%%%%%%%%%%% """
 # Se ejecuta la función del juego.
 run_game()
