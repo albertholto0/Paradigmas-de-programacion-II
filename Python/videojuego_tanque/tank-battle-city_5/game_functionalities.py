@@ -7,7 +7,7 @@ from Explosion import Explosion
 
 explosiones = []
 
-def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, municiones, sonido_disparo, sonido_vacio):
+def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, municiones, sonido_disparo, sonido_vacio, paredes):
     # Se revisan los eventos del juego.
     for event in pygame.event.get():
         # El evento es un clic en cerrar el juego.
@@ -111,12 +111,20 @@ def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2, tanque1, tanque2):
     screen.blit(vida_texto_2,
                 (screen.get_width() - vida_texto_2.get_width() - 10, 10))  # Vida del Tanque Verde (derecha)
     screen.blit(balas_texto_2, (screen.get_width() - balas_texto_2.get_width() - 10, 30))  # Balas del Tanque Verde
-def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion):
+
+def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion, paredes):
     for bala in list(balas_group):
         if bala.bala_rect.bottom < 0 or bala.bala_rect.top > bala.screen_rect.height or \
                 bala.bala_rect.right < 0 or bala.bala_rect.left > bala.screen_rect.width:
             balas_group.remove(bala)
             continue
+
+        # Verificar colisión con paredes
+        for pared in paredes:
+            if bala.bala_rect.colliderect(pared.rect):
+                balas_group.remove(bala)
+                explosiones.append(Explosion(bala.screen, bala.bala_rect.centerx, bala.bala_rect.centery))
+                continue
 
         if bala.tanque != tanque1 and tanque1.image_rect.colliderect(bala.bala_rect):
             tanque1.vida -= 10
@@ -150,7 +158,7 @@ def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, so
             sonido_municion.play()
 
 # Función que administra la actualización de la pantalla.
-def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones, explosiones, paredes):
+def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones, explo, paredes):
     background = pygame.image.load(tank_config.background_image_path)
     background = pygame.transform.scale(background, (tank_config.screen_width, tank_config.screen_height))
     screen.blit(background, (0, 0))
@@ -185,10 +193,11 @@ def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, bo
     for pared in paredes:
         pared.blitme()
 
-    for explosion in explosiones:
+    for explosion in explo:
         explosion.update()
         explosion.blitme()
-    explosiones = [explosion for explosion in explosiones if explosion.activa]  # Eliminar explosiones inactivas
+
+    explo = [explosion for explosion in explo if explosion.activa]  # Eliminar explosiones inactivas
 
     mostrar_niveles_vida(screen, tanque1.vida, tanque2.vida, tanque1, tanque2)
     clock.tick(tank_config.fps)
