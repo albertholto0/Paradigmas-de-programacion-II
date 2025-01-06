@@ -7,8 +7,6 @@ class Config:
         self.background_image_path = "media/fondo.jpg"  # Ruta de la imagen de fondo.
         self.fps = 30
 
-        # Configuraciones del alumno
-        self.tank_speed = 7  # Velocidad del movimiento del alumno. Colocar float.
+        self.tank_speed = 7
 
-        # Configuraciones de la laptop (arma)
         self.bala_speed = 16

@@ -67,5 +67,4 @@ class Bala(Sprite):
         self.bala_rect = self.bala_image.get_rect(center=self.bala_rect.center)
 
     def eliminar_bala(self):
-        """Metod0 para eliminar la bala después de la colisión."""
-        self.kill()  # Elimina la bala del grupo de sprites
+        self.kill()

@@ -7,7 +7,6 @@ import sys
 import time
 
 def run_game():
-    # Inicializar el juego, las configuraciones y crear un objeto de la pantalla (screen).
     clock = pygame.time.Clock()
     pygame.init()
     tank_config = Config()
@@ -21,7 +20,6 @@ def run_game():
     sonido_vacio = pygame.mixer.Sound("media/vacio.mp3")
     sonido_vacio.set_volume(0.7)
 
-    # Cargar sonidos de recogida de recursos
     sonido_botiquin = pygame.mixer.Sound("media/recoger_botiquin.mp3")
     sonido_municion = pygame.mixer.Sound("media/recoger_municion.mp3")
     sonido_botiquin.set_volume(0.7)
@@ -38,11 +36,8 @@ def run_game():
     tanque2 = Tanque(screen, tank_config, image_path="media/tanque_arena.png", position=tanque2_position)
 
     balas_group = Group()
-
     botiquines = Group()
     municiones = Group()
-
-    # Iniciar el temporizador para generar recursos cada 15 segundos
     pygame.time.set_timer(pygame.USEREVENT, 10000)
 
     running = True
@@ -58,7 +53,6 @@ def run_game():
             pygame.quit()
             sys.exit()
 
-
-""" %%%%%%% CÓDIGO A NIVEL DE MÓDULO %%%%%%%%%%%%%%%%%%%%%%%% """
+"""Código a nivel de módulo"""
 # Se ejecuta la función del juego.
 run_game()
