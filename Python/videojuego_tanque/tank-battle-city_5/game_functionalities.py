@@ -198,6 +198,12 @@ def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, bo
         explosion.blitme()
 
     explo = [explosion for explosion in explo if explosion.activa]  # Eliminar explosiones inactivas
+    for explosion in explosiones[:]:
+        explosion.update()
+        if not explosion.activa:
+            explosiones.remove(explosion)
+        else:
+            explosion.blitme()
 
     mostrar_niveles_vida(screen, tanque1.vida, tanque2.vida, tanque1, tanque2)
     clock.tick(tank_config.fps)

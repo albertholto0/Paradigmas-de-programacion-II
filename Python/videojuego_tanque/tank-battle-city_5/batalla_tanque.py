@@ -52,7 +52,7 @@ def run_game():
 
         if tanque1.vida <= 0 or tanque2.vida <= 0:
             print("Un tanque ha perdido toda su vida. El juego se cerrará en 2 segundos.")
-            time.sleep(2)
+            time.sleep(2) 
             pygame.quit()
             sys.exit()
 
