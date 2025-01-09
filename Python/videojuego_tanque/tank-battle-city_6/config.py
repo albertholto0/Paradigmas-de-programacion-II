@@ -8,8 +8,8 @@ class Config:
         self.screen_height = 720
         self.background_image_path = "media/fondo.jpg"
         self.fps = 30
-        self.tank_speed = 7
-        self.bala_speed = 17
+        self.tank_speed = 9
+        self.bala_speed = 20
         self.paredes = self.seleccionar_paredes_aleatorias()
 
     def seleccionar_paredes_aleatorias(self):
