@@ -23,7 +23,7 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, 
             game_events_keyup(event, tanque1, tanque2)
 
         elif event.type == pygame.USEREVENT:
-            generar_recursos(screen, botiquines, municiones, paredes)
+            generar_recursos(screen, botiquines, municiones, paredes, tanque1, tanque2)
 
 def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio):
     # Tanque 1 (movimiento con las teclas de flecha)
@@ -113,24 +113,34 @@ def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2, tanque1, tanque2):
     screen.blit(balas_texto_2, (screen.get_width() - balas_texto_2.get_width() - 10, 30))  # Balas del Tanque Verde
 
 def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion, paredes):
+
+    sonido_colision = pygame.mixer.Sound("media/colision_bala_tanque.mp3")
+    sonido_colision.set_volume(1)
+    sonido_colision_pared = pygame.mixer.Sound("media/colision_pared.mp3")
+    sonido_colision_pared.set_volume(1)
+
     for bala in list(balas_group):
         if bala.bala_rect.bottom < 0 or bala.bala_rect.top > bala.screen_rect.height or \
                 bala.bala_rect.right < 0 or bala.bala_rect.left > bala.screen_rect.width:
             balas_group.remove(bala)
             continue
 
-        # Verificar colisión con paredes
+        # Colisión con paredes
         for pared in paredes:
             if bala.bala_rect.colliderect(pared.rect):
+                sonido_colision_pared.play()
                 balas_group.remove(bala)
                 explosiones.append(Explosion(bala.screen, bala.bala_rect.centerx, bala.bala_rect.centery))
                 continue
 
+        # Colisiones con tanques
         if bala.tanque != tanque1 and tanque1.image_rect.colliderect(bala.bala_rect):
+            sonido_colision.play()
             tanque1.vida -= 10
             balas_group.remove(bala)
             explosiones.append(Explosion(bala.screen, bala.bala_rect.centerx, bala.bala_rect.centery))
         elif bala.tanque != tanque2 and tanque2.image_rect.colliderect(bala.bala_rect):
+            sonido_colision.play()
             tanque2.vida -= 10
             balas_group.remove(bala)
             explosiones.append(Explosion(bala.screen, bala.bala_rect.centerx, bala.bala_rect.centery))
