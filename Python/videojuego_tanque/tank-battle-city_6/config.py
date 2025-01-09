@@ -9,7 +9,7 @@ class Config:
 
         self.tank_speed = 7
 
-        self.bala_speed = 16
+        self.bala_speed = 17
 
         self.paredes = [
             [300, 100, 50, 200],  # Pared vertical izquierda

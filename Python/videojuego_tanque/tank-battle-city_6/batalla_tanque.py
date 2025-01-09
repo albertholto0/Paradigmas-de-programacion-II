@@ -40,7 +40,7 @@ def run_game():
     balas_group = Group()
     botiquines = Group()
     municiones = Group()
-    pygame.time.set_timer(pygame.USEREVENT, 10000)
+    pygame.time.set_timer(pygame.USEREVENT, 7500)
     explosiones = []
     paredes = [Pared(screen, *coords) for coords in tank_config.paredes]
 

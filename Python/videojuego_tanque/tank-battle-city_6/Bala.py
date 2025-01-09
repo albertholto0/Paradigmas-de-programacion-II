@@ -14,6 +14,8 @@ class Bala(Sprite):
         self.bala_rect = self.bala_image.get_rect()
         self.screen_rect = screen.get_rect()
 
+        self.origen = tanque
+
         # Ajustamos la posición inicial de la bala según la dirección del tanque.
         if self.tanque.direction == 'right':
             self.bala_rect.centerx = self.tanque.image_rect.right
