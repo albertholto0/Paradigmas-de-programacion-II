@@ -7,6 +7,8 @@ import sys
 import time
 from Pared import Pared
 
+# Version 6
+
 def run_game():
 
     clock = pygame.time.Clock()
