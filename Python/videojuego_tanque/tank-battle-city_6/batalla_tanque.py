@@ -8,6 +8,7 @@ import time
 from Pared import Pared
 
 def run_game():
+
     clock = pygame.time.Clock()
     pygame.init()
     tank_config = Config()

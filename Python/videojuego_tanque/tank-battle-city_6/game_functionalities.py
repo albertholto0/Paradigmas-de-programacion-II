@@ -1,6 +1,4 @@
-# Se importan las bibliotecas necesarias.
 import sys
-from statistics import median
 
 import pygame
 from Bala import Bala
