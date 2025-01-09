@@ -2,7 +2,6 @@ import pygame
 from pygame.sprite import Sprite
 
 class Bala(Sprite):
-    """ Clase para controlar la bala (funciona como el arma). """
     def __init__(self, tank_config, screen, tanque):
         super(Bala, self).__init__()
 
@@ -16,7 +15,6 @@ class Bala(Sprite):
 
         self.origen = tanque
 
-        # Ajustamos la posición inicial de la bala según la dirección del tanque.
         if self.tanque.direction == 'right':
             self.bala_rect.centerx = self.tanque.image_rect.right
             self.bala_rect.centery = self.tanque.image_rect.centery
@@ -38,7 +36,6 @@ class Bala(Sprite):
         self.rotate_bala_image()
 
     def update_pos(self):
-        """Actualizar la posición de la bala dependiendo de la dirección del tanque."""
         if self.direction == 'up':
             self.bala_rect_centery -= self.bala_speed
         elif self.direction == 'down':
@@ -52,11 +49,9 @@ class Bala(Sprite):
         self.bala_rect.centery = self.bala_rect_centery
 
     def blitme(self):
-        """Dibuja la bala en la pantalla."""
         self.screen.blit(self.bala_image, self.bala_rect)
 
     def rotate_bala_image(self):
-        """Rota la imagen de la bala según la dirección del tanque."""
         if self.direction == 'right':
             self.bala_image = pygame.transform.rotate(pygame.image.load("media/bala.png"), 270)
         elif self.direction == 'left':

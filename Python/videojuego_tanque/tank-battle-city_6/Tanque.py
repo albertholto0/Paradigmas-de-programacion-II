@@ -1,7 +1,6 @@
 import pygame
 
 class Tanque:
-    """ Constructor para inicializar al tanque y establecer su posición inicial en la pantalla. """
     def __init__(self, screen, tank_config, image_path="media/tanque_verde.png", position=None):
         self.screen = screen
         self.tank_config = tank_config
@@ -9,7 +8,8 @@ class Tanque:
         self.image_original = self.image
         self.image_rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
-        self.vida = 100
+
+        self.vida = 100 # Vida del tanque
         self.max_balas = 10  # Límite de balas
         self.balas_disparadas = 0  # Contador de balas disparadas
 
@@ -111,5 +111,4 @@ class Tanque:
         self.image_rect = self.image.get_rect(center=self.image_rect.center)
 
     def blitme(self):
-        """ Dibuja el tanque en la pantalla. """
         self.screen.blit(self.image, self.image_rect)

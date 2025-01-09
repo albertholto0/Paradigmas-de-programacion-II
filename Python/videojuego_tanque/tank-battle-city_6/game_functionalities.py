@@ -135,7 +135,6 @@ def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, so
             balas_group.remove(bala)
             explosiones.append(Explosion(bala.screen, bala.bala_rect.centerx, bala.bala_rect.centery))
 
-    # Manejar colisiones con botiquines
     for botiquin in list(botiquines):
         if tanque1.image_rect.colliderect(botiquin.rect):
             tanque1.vida = min(100, tanque1.vida + 20)  # Aumenta la vida, sin superar el máximo de 100
@@ -146,7 +145,6 @@ def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, so
             botiquines.remove(botiquin)
             sonido_botiquin.play()
 
-    # Manejar colisiones con municiones
     for municion in list(municiones):
         if tanque1.image_rect.colliderect(municion.rect):
             tanque1.balas_disparadas = max(0, tanque1.balas_disparadas - 5)  # Restaura balas, sin superar el límite
@@ -185,7 +183,6 @@ def preguntar_jugar_de_nuevo(screen):
                 if no_rect.collidepoint(event.pos):
                     return False  # Salir del juego
 
-# Función que administra la actualización de la pantalla.
 def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones, explo, paredes):
     background = pygame.image.load(tank_config.background_image_path)
     background = pygame.transform.scale(background, (tank_config.screen_width, tank_config.screen_height))
