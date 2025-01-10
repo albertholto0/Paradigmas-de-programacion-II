@@ -83,7 +83,18 @@ def run_game():
             pygame.display.flip()
             time.sleep(5)
 
+            # Pantalla negra con imagen y texto
             screen.fill((0, 0, 0))  # Fondo negro
+
+            # Cargar y mostrar la imagen en el centro superior
+            imagen_mensaje = pygame.image.load(
+                "media/game_over_tanque.jpg")  # Cambia "imagen_mensaje.png" según el archivo correcto
+            imagen_mensaje = pygame.transform.scale(imagen_mensaje, (270, 250))  # Tamaño ajustado a 250x250
+            imagen_mensaje_rect = imagen_mensaje.get_rect(center=(screen.get_width() // 2, screen.get_height() // 3.5))
+
+            screen.blit(imagen_mensaje, imagen_mensaje_rect)
+
+            # Mostrar texto debajo de la imagen
             font = pygame.font.Font("media/Pixeled.ttf", 30)  # Fuente personalizada
             mensaje1 = font.render("Fin del juego.", True, (255, 255, 255))
             if tanque_derrotado == "Tanque 1":
@@ -93,18 +104,21 @@ def run_game():
 
             mensaje2 = font.render(f"El {tanque_derrotado} ha sido derribado.", True, color_nombre)
 
-            mensaje1_rect = mensaje1.get_rect(center=(screen.get_width() // 2, screen.get_height() // 3))
-            mensaje2_rect = mensaje2.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+            # Posicionar los textos debajo de la imagen
+            mensaje1_rect = mensaje1.get_rect(center=(screen.get_width() // 2, imagen_mensaje_rect.bottom + 40))
+            mensaje2_rect = mensaje2.get_rect(center=(screen.get_width() // 2, mensaje1_rect.bottom + 40))
 
             screen.blit(mensaje1, mensaje1_rect)
             screen.blit(mensaje2, mensaje2_rect)
             pygame.display.flip()
 
+            # Reproducir música de game over
             pygame.mixer.music.load("media/game_over.mp3")
             pygame.mixer.music.set_volume(1)
             pygame.mixer.music.play(0)
             time.sleep(5)
 
+            # Preguntar si desea jugar de nuevo
             jugar_de_nuevo = game_functionalities.preguntar_jugar_de_nuevo(screen)
             if jugar_de_nuevo:
                 run_game()  # Reiniciar el juego
