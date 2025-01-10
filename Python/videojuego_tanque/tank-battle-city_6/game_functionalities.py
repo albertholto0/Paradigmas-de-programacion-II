@@ -1,13 +1,12 @@
 import sys
-
 import pygame
 from Bala import Bala
 from recursos import generar_recursos
 from Explosion import Explosion
-
+from mina import Mina
 explosiones = []
 
-def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, municiones, sonido_disparo, sonido_vacio, paredes):
+def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, municiones, sonido_disparo, sonido_vacio, paredes,  minas_group):
     # Se revisan los eventos del juego.
     for event in pygame.event.get():
         # El evento es un clic en cerrar el juego.
@@ -16,7 +15,7 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, 
 
         # El evento es presionar una tecla.
         elif event.type == pygame.KEYDOWN:
-            game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio)
+            game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio, minas_group)
 
         # El evento es soltar una tecla.
         elif event.type == pygame.KEYUP:
@@ -25,7 +24,9 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, 
         elif event.type == pygame.USEREVENT:
             generar_recursos(screen, botiquines, municiones, paredes, tanque1, tanque2)
 
-def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio):
+def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio,  minas_group):
+    sonido_tiempo_mina = pygame.mixer.Sound("media/contador_mina.mp3")
+    sonido_tiempo_mina.set_volume(1)
     # Tanque 1 (movimiento con las teclas de flecha)
     if event.key == pygame.K_RIGHT:
         tanque1.is_moving_right = True
@@ -66,6 +67,20 @@ def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_grou
             print("Tanque 2 no puede disparar más balas.")
             sonido_vacio.play()
 
+    # Minas
+    elif event.key == pygame.K_0:
+        if tanque1.minas_disponibles > 0:
+            nueva_mina = Mina(screen, tanque1.image_rect.centerx, tanque1.image_rect.centery, tanque1)
+            minas_group.add(nueva_mina)
+            tanque1.minas_disponibles -= 1
+            sonido_tiempo_mina.play()
+    elif event.key == pygame.K_f:
+            if tanque2.minas_disponibles > 0:
+                nueva_mina = Mina(screen, tanque2.image_rect.centerx, tanque2.image_rect.centery, tanque2)
+                minas_group.add(nueva_mina)
+                tanque2.minas_disponibles -= 1
+                sonido_tiempo_mina.play()
+
 # Función que administra el evento cuando se presiona una tecla.
 def game_events_keyup(event, tanque1, tanque2):
     # Tanque 1
@@ -96,6 +111,7 @@ def check_tank_collision(tanque1, tanque2):
 # Parte de mostrar_niveles_vida en game_functionalities.py
 def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2, tanque1, tanque2):
     font = pygame.font.Font("media/Pixeled.ttf", 14)  # Fuente personalizada
+
     # Mostrar niveles de vida
     vida_texto_2 = font.render(f"Tanque Verde: {vida_tanque1}", True, (13, 69, 23))
     vida_texto_1 = font.render(f"Tanque Arena: {vida_tanque2}", True, (92, 56, 2))
@@ -104,16 +120,22 @@ def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2, tanque1, tanque2):
     balas_texto_2 = font.render(f"Balas: {tanque1.max_balas - tanque1.balas_disparadas}", True, (13, 69, 23))
     balas_texto_1 = font.render(f"Balas: {tanque2.max_balas - tanque2.balas_disparadas}", True, (92, 56, 2))
 
+    # Mostrar minas disponibles
+    minas_texto_2 = font.render(f"Minas: {tanque1.minas_disponibles}", True, (13, 69, 23))
+    minas_texto_1 = font.render(f"Minas: {tanque2.minas_disponibles}", True, (92, 56, 2))
+
     # Posiciones de los textos
-    screen.blit(vida_texto_1, (10, 10))  # Vida del Tanque Arena (izquierda)
-    screen.blit(balas_texto_1, (10, 30))  # Balas del Tanque Arena (debajo de la vida)
+    screen.blit(vida_texto_1, (10, 10))  # Vida del Tanque Arena
+    screen.blit(balas_texto_1, (10, 30))  # Balas del Tanque Arena
+    screen.blit(minas_texto_1, (10, 50))  # Minas del Tanque Arena
 
-    screen.blit(vida_texto_2,
-                (screen.get_width() - vida_texto_2.get_width() - 10, 10))  # Vida del Tanque Verde (derecha)
+    screen.blit(vida_texto_2, (screen.get_width() - vida_texto_2.get_width() - 10, 10))  # Vida del Tanque Verde
     screen.blit(balas_texto_2, (screen.get_width() - balas_texto_2.get_width() - 10, 30))  # Balas del Tanque Verde
+    screen.blit(minas_texto_2, (screen.get_width() - minas_texto_2.get_width() - 10, 50))  # Minas del Tanque Verde
 
-def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion, paredes):
 
+def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion, paredes,
+                       minas_group):
     sonido_colision = pygame.mixer.Sound("media/colision_bala_tanque.mp3")
     sonido_colision.set_volume(1)
     sonido_colision_pared = pygame.mixer.Sound("media/colision_pared.mp3")
@@ -131,7 +153,7 @@ def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, so
                 sonido_colision_pared.play()
                 balas_group.remove(bala)
                 explosiones.append(Explosion(bala.screen, bala.bala_rect.centerx, bala.bala_rect.centery))
-                continue
+                break
 
         # Colisiones con tanques
         if bala.tanque != tanque1 and tanque1.image_rect.colliderect(bala.bala_rect):
@@ -145,9 +167,20 @@ def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, so
             balas_group.remove(bala)
             explosiones.append(Explosion(bala.screen, bala.bala_rect.centerx, bala.bala_rect.centery))
 
+    # Colisiones con minas
+    for mina in minas_group:
+        if mina.exploded and mina.activo:
+            for explosion_rect in mina.explosion_rects:
+                if explosion_rect.colliderect(tanque1.image_rect):
+                    mina.aplicar_dano(tanque1)
+                elif explosion_rect.colliderect(tanque2.image_rect):
+                    mina.aplicar_dano(tanque2)
+
+
+    # Colisiones con botiquines
     for botiquin in list(botiquines):
         if tanque1.image_rect.colliderect(botiquin.rect):
-            tanque1.vida = min(100, tanque1.vida + 20)  # Aumenta la vida, sin superar el máximo de 100
+            tanque1.vida = min(100, tanque1.vida + 20)
             botiquines.remove(botiquin)
             sonido_botiquin.play()
         elif tanque2.image_rect.colliderect(botiquin.rect):
@@ -155,15 +188,17 @@ def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, so
             botiquines.remove(botiquin)
             sonido_botiquin.play()
 
+    # Colisiones con municiones
     for municion in list(municiones):
         if tanque1.image_rect.colliderect(municion.rect):
-            tanque1.balas_disparadas = max(0, tanque1.balas_disparadas - 5)  # Restaura balas, sin superar el límite
+            tanque1.balas_disparadas = max(0, tanque1.balas_disparadas - 5)
             municiones.remove(municion)
             sonido_municion.play()
         elif tanque2.image_rect.colliderect(municion.rect):
             tanque2.balas_disparadas = max(0, tanque2.balas_disparadas - 5)
             municiones.remove(municion)
             sonido_municion.play()
+
 
 def preguntar_jugar_de_nuevo(screen):
     font = pygame.font.Font("media/Pixeled.ttf", 25)
@@ -193,7 +228,7 @@ def preguntar_jugar_de_nuevo(screen):
                 if no_rect.collidepoint(event.pos):
                     return False  # Salir del juego
 
-def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones, explo, paredes):
+def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones, explo, paredes, minas_group):
     background = pygame.image.load(tank_config.background_image_path)
     background = pygame.transform.scale(background, (tank_config.screen_width, tank_config.screen_height))
     screen.blit(background, (0, 0))
@@ -239,6 +274,12 @@ def screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, bo
             explosiones.remove(explosion)
         else:
             explosion.blitme()
+
+    for mina in minas_group.copy():
+        mina.update()
+        mina.blitme()
+        if not mina.activo:
+            minas_group.remove(mina)
 
     mostrar_niveles_vida(screen, tanque1.vida, tanque2.vida, tanque1, tanque2)
     clock.tick(tank_config.fps)

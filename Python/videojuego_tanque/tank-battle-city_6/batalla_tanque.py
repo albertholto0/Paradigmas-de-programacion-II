@@ -14,7 +14,7 @@ def run_game():
     tank_config = Config()
 
     pygame.mixer.music.load("media/musica_fondo.mp3")
-    pygame.mixer.music.set_volume(1)
+    pygame.mixer.music.set_volume(0.7)
     pygame.mixer.music.play(-1)
 
     sonido_disparo = pygame.mixer.Sound("media/disparo.mp3")
@@ -38,6 +38,7 @@ def run_game():
     tanque2 = Tanque(screen, tank_config, image_path="media/tanque_arena.png", position=tanque2_position)
 
     balas_group = Group()
+    minas_group = Group()
     botiquines = Group()
     municiones = Group()
     pygame.time.set_timer(pygame.USEREVENT, 7500)
@@ -47,10 +48,16 @@ def run_game():
 
     running = True
     while running:
-        game_functionalities.game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, municiones, sonido_disparo, sonido_vacio, paredes)
-        game_functionalities.screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones, explosiones, paredes)
-        game_functionalities.manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion, paredes)
+        game_functionalities.game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, municiones, sonido_disparo, sonido_vacio, paredes, minas_group)
+        game_functionalities.screen_refresh(tank_config, clock, screen, tanque1, tanque2, balas_group, botiquines, municiones, explosiones, paredes, minas_group)
+        game_functionalities.manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, sonido_botiquin, sonido_municion, paredes,minas_group)
+
         balas_group.update()
+        minas_group.update()
+
+        for mina in minas_group.copy():
+            if  not mina.activo:
+                minas_group.remove(mina)
 
         if tanque1.vida <= 0 or tanque2.vida <= 0:
             print("Un tanque ha perdido toda su vida. El juego se cerrará en 2 segundos.")

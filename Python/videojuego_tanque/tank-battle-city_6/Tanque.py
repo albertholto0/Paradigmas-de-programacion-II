@@ -13,6 +13,11 @@ class Tanque:
         self.max_balas = 10  # Límite de balas
         self.balas_disparadas = 0  # Contador de balas disparadas
 
+        # Minas
+        self.minas_disponibles = 3
+        self.tiempo_ultima_mina = 0
+        self.retraso_mina = 5000  # 5 segundos para regenerar una mina
+
         if position:
             self.image_rect.centerx, self.image_rect.centery = position
         else:
