@@ -9,7 +9,7 @@ class Mina(Sprite):
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.explosion_time = pygame.time.get_ticks() + 3000  # Tiempo actual más 3 segundos
+        self.explosion_time = pygame.time.get_ticks() + 2000  # Tiempo actual más 3 segundos
         self.exploded = False  # Bandera para verificar si ha explotado
         self.explosion_end_time = None  # Tiempo en que la explosión termina
         self.activo = True  # Bandera para verificar si la mina sigue activa
@@ -18,7 +18,7 @@ class Mina(Sprite):
         self.explosion_rects = []  # Rectángulos de colisión de la explosión
         self.tanque_propietario = tanque_propietario  # Tanque que dejó la mina
         self.paredes = paredes  # Lista de paredes en el juego
-        self.damage_cooldown = 500  # Tiempo mínimo entre aplicaciones de daño (ms)
+        self.damage_cooldown = 1000  # Tiempo mínimo entre aplicaciones de daño (ms)
         self.last_damage_time = {}  # Almacena el último daño aplicado a cada tanque
 
     def blitme(self):
@@ -32,14 +32,14 @@ class Mina(Sprite):
         if pygame.time.get_ticks() >= self.explosion_time and not self.exploded:
             self.explotar()
             self.exploded = True
-            self.explosion_end_time = pygame.time.get_ticks() + 1000  # Explosión dura 1 segundo
+            self.explosion_end_time = pygame.time.get_ticks() + 2000  # Explosión dura 1 segundo
         elif self.exploded and pygame.time.get_ticks() >= self.explosion_end_time:
             self.activo = False  # Marcar la mina como inactiva después de que la explosión termine
 
     def explotar(self):
         print(f"Explosión en forma de cruz iniciada en ({self.rect.centerx}, {self.rect.centery})")
         self.dibujar_explosion()
-        sonido_quemarse = pygame.mixer.Sound("media/quemarse.mp3")
+        sonido_quemarse = pygame.mixer.Sound("media/explosion_mina.mp3")
         sonido_quemarse.set_volume(1)
         sonido_quemarse.play()
 
@@ -84,7 +84,7 @@ class Mina(Sprite):
     def aplicar_dano(self, tanque, dano):
         current_time = pygame.time.get_ticks()
         if tanque not in self.last_damage_time:
-            self.last_damage_time[tanque] = 0  # Inicializar si no existe
+            self.last_damage_time[tanque] = 0
         if current_time - self.last_damage_time[tanque] >= self.damage_cooldown:
             tanque.vida -= dano
             self.last_damage_time[tanque] = current_time

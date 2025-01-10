@@ -1,4 +1,5 @@
 import pygame
+import time
 
 class Tanque:
     def __init__(self, screen, tank_config, image_path="media/tanque_verde.png", position=None):
@@ -9,14 +10,15 @@ class Tanque:
         self.image_rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
-        self.vida = 100 # Vida del tanque
-        self.max_balas = 10  # Límite de balas
+        self.vida = 100  # Vida del tanque
+        self.max_balas = 15  # Límite de balas
         self.balas_disparadas = 0  # Contador de balas disparadas
 
         # Minas
         self.minas_disponibles = 3
-        self.tiempo_ultima_mina = 0
-        self.retraso_mina = 5000  # 5 segundos para regenerar una mina
+        self.max_minas = 3
+        self.tiempo_ultima_mina = time.time()  # Tiempo de referencia para el regenerador
+        self.retraso_mina = 5  # Intervalo en segundos para regenerar una mina
 
         if position:
             self.image_rect.centerx, self.image_rect.centery = position
@@ -37,10 +39,20 @@ class Tanque:
 
         self.direction = 'down'
 
+    def actualizar_minas(self):
+        """ Regenera una mina cada 10 segundos, sin superar el límite máximo. """
+        tiempo_actual = time.time()
+        if tiempo_actual - self.tiempo_ultima_mina >= self.retraso_mina:
+            if self.minas_disponibles < self.max_minas:
+                self.minas_disponibles += 1
+                self.tiempo_ultima_mina = tiempo_actual
+
     def update_pos(self, otro_tanque, paredes):
         """ Actualiza la posición del tanque y verifica colisiones con otro tanque y los bordes de la pantalla. """
         if self.vida <= 0:
             return  # Si la vida es 0, no se mueve el tanque
+
+        self.actualizar_minas()  # Llamamos a la función para regenerar minas
 
         prev_rect = self.image_rect.copy()  # Guardamos la posición previa del tanque
 
