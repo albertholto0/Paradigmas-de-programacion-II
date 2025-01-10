@@ -22,6 +22,12 @@ def run_game():
     sonido_vacio = pygame.mixer.Sound("media/vacio.mp3")
     sonido_vacio.set_volume(0.7)
 
+    sonido_derribo_tanque = pygame.mixer.Sound("media/destruccion_pared.mp3")
+    sonido_derribo_tanque.set_volume(1)
+
+    grito = pygame.mixer.Sound("media/scream.mp3")
+    grito.set_volume(0.7)
+
     sonido_botiquin = pygame.mixer.Sound("media/recoger_botiquin.mp3")
     sonido_municion = pygame.mixer.Sound("media/recoger_municion.mp3")
     sonido_botiquin.set_volume(0.7)
@@ -60,17 +66,44 @@ def run_game():
                 minas_group.remove(mina)
 
         if tanque1.vida <= 0 or tanque2.vida <= 0:
-            print("Un tanque ha perdido toda su vida. El juego se cerrará en 2 segundos.")
-            time.sleep(2)
+            tanque_derrotado = "Tanque 1" if tanque1.vida <= 0 else "Tanque 2"
+            print(f"El {tanque_derrotado} ha perdido toda su vida. Mostrando pantalla de fin del juego.")
+            tanque_rect = tanque1.image_rect if tanque1.vida <= 0 else tanque2.image_rect
+
             pygame.mixer.music.stop()
-            game_over_image = pygame.image.load("media/game_over.png")
-            game_over_image = pygame.transform.scale(game_over_image, screen.get_size())
-            screen.blit(game_over_image, (0, 0))
+            sonido_derribo_tanque.play()
+            time.sleep(1)
+            grito.play()
+
+            explosion_imagen = pygame.image.load("media/explosion.png")
+            explosion_imagen = pygame.transform.scale(explosion_imagen, (tanque_rect.width, tanque_rect.height))
+            explosion_rect = explosion_imagen.get_rect(center=tanque_rect.center)
+            screen.blit(explosion_imagen, explosion_rect)
+
             pygame.display.flip()
+            time.sleep(5)
+
+            screen.fill((0, 0, 0))  # Fondo negro
+            font = pygame.font.Font("media/Pixeled.ttf", 30)  # Fuente personalizada
+            mensaje1 = font.render("Fin del juego.", True, (255, 255, 255))
+            if tanque_derrotado == "Tanque 1":
+                color_nombre = (110, 148, 107)  # Verde
+            else:
+                color_nombre = (210, 180, 140)  # Arena
+
+            mensaje2 = font.render(f"El {tanque_derrotado} ha sido derribado.", True, color_nombre)
+
+            mensaje1_rect = mensaje1.get_rect(center=(screen.get_width() // 2, screen.get_height() // 3))
+            mensaje2_rect = mensaje2.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+
+            screen.blit(mensaje1, mensaje1_rect)
+            screen.blit(mensaje2, mensaje2_rect)
+            pygame.display.flip()
+
             pygame.mixer.music.load("media/game_over.mp3")
             pygame.mixer.music.set_volume(1)
             pygame.mixer.music.play(0)
-            time.sleep(4)
+            time.sleep(5)
 
             jugar_de_nuevo = game_functionalities.preguntar_jugar_de_nuevo(screen)
             if jugar_de_nuevo:

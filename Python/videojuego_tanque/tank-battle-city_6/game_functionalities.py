@@ -204,8 +204,8 @@ def preguntar_jugar_de_nuevo(screen):
     while True:
         screen.fill((0, 0, 0))  # Fondo negro
         mensaje = font.render("¿Jugar de nuevo?", True, (255, 255, 255))
-        si_boton = font.render("[SI]", True, (0, 255, 0))
-        no_boton = font.render("[NO]", True, (255, 0, 0))
+        si_boton = font.render("[ SI ]", True, (0, 255, 0))
+        no_boton = font.render("[ NO ]", True, (255, 0, 0))
 
         mensaje_rect = mensaje.get_rect(center=(screen.get_width() // 2, screen.get_height() // 3))
         si_rect = si_boton.get_rect(center=(screen.get_width() // 3, screen.get_height() // 2))
