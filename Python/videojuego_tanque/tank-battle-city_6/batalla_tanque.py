@@ -7,11 +7,54 @@ import sys
 import time
 from Pared import Pared
 
+def mostrar_pantalla_inicio(screen):
+    """Muestra una pantalla inicial con un botón funcional 'Iniciar'."""
+    while True:
+        screen.fill((0, 0, 0))  # Fondo negro
+
+        # Cargar y mostrar la imagen en el centro
+        imagen_inicio = pygame.image.load("media/inicio_juego.jpg")  # Cambia "inicio.png" al nombre de tu imagen
+        imagen_inicio = pygame.transform.scale(imagen_inicio, (420, 400))  # Escalar imagen a 250x250
+        imagen_inicio_rect = imagen_inicio.get_rect(center=(screen.get_width() // 2, screen.get_height() // 3.5))
+        screen.blit(imagen_inicio, imagen_inicio_rect)
+
+        # Mostrar botón "Iniciar"
+        font = pygame.font.Font("media/Pixeled.ttf", 30)  # Fuente personalizada
+        texto_iniciar = font.render("Iniciar", True, (255, 255, 255))
+        boton_iniciar_rect = texto_iniciar.get_rect(center=(screen.get_width() // 2, imagen_inicio_rect.bottom + 60))
+        pygame.draw.rect(screen, (50, 50, 50), boton_iniciar_rect.inflate(20, 10))  # Fondo del botón
+        screen.blit(texto_iniciar, boton_iniciar_rect)  # Texto del botón
+
+        pygame.display.flip()
+
+        # Manejar eventos
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Verificar si se hace clic sobre el botón "Iniciar"
+                if boton_iniciar_rect.collidepoint(event.pos):
+                    return  # Salir de la pantalla de inicio
+
+
 def run_game():
 
     clock = pygame.time.Clock()
     pygame.init()
     tank_config = Config()
+
+    screen_size = (tank_config.screen_width, tank_config.screen_height)
+    screen = pygame.display.set_mode(screen_size)
+    pygame.display.set_caption(tank_config.game_title)
+
+    mostrar_pantalla_inicio(screen)
+
+    tanque1_position = (screen.get_rect().right - 100, screen.get_rect().centery)
+    tanque1 = Tanque(screen, tank_config, position=tanque1_position)
+
+    tanque2_position = (screen.get_rect().left + 100, screen.get_rect().centery)
+    tanque2 = Tanque(screen, tank_config, image_path="media/tanque_arena.png", position=tanque2_position)
 
     pygame.mixer.music.load("media/musica_fondo.mp3")
     pygame.mixer.music.set_volume(0.7)
@@ -32,16 +75,6 @@ def run_game():
     sonido_municion = pygame.mixer.Sound("media/recoger_municion.mp3")
     sonido_botiquin.set_volume(0.7)
     sonido_municion.set_volume(0.7)
-
-    screen_size = (tank_config.screen_width, tank_config.screen_height)
-    screen = pygame.display.set_mode(screen_size)
-    pygame.display.set_caption(tank_config.game_title)
-
-    tanque1_position = (screen.get_rect().right - 100, screen.get_rect().centery)
-    tanque1 = Tanque(screen, tank_config, position=tanque1_position)
-
-    tanque2_position = (screen.get_rect().left + 100, screen.get_rect().centery)
-    tanque2 = Tanque(screen, tank_config, image_path="media/tanque_arena.png", position=tanque2_position)
 
     balas_group = Group()
     minas_group = Group()
