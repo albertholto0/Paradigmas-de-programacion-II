@@ -10,15 +10,15 @@ class Tanque:
         self.image_rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
-        self.vida = 100  # Vida del tanque
-        self.max_balas = 15  # Límite de balas
-        self.balas_disparadas = 0  # Contador de balas disparadas
+        self.vida = 100
+        self.max_balas = 15
+        self.balas_disparadas = 0
 
         # Minas
         self.minas_disponibles = 3
         self.max_minas = 3
-        self.tiempo_ultima_mina = time.time()  # Tiempo de referencia para el regenerador
-        self.retraso_mina = 5  # Intervalo en segundos para regenerar una mina
+        self.tiempo_ultima_mina = time.time()
+        self.retraso_mina = 5
 
         if position:
             self.image_rect.centerx, self.image_rect.centery = position
@@ -31,7 +31,7 @@ class Tanque:
 
         self.tank_speed = self.tank_config.tank_speed
 
-        # Flags de movimiento
+        # Banderas de movimiento
         self.is_moving_right = False
         self.is_moving_left = False
         self.is_moving_up = False
@@ -40,7 +40,6 @@ class Tanque:
         self.direction = 'down'
 
     def actualizar_minas(self):
-        """ Regenera una mina cada 10 segundos, sin superar el límite máximo. """
         tiempo_actual = time.time()
         if tiempo_actual - self.tiempo_ultima_mina >= self.retraso_mina:
             if self.minas_disponibles < self.max_minas:
@@ -48,15 +47,11 @@ class Tanque:
                 self.tiempo_ultima_mina = tiempo_actual
 
     def update_pos(self, otro_tanque, paredes):
-        """ Actualiza la posición del tanque y verifica colisiones con otro tanque y los bordes de la pantalla. """
         if self.vida <= 0:
-            return  # Si la vida es 0, no se mueve el tanque
+            return
+        self.actualizar_minas()
+        prev_rect = self.image_rect.copy()
 
-        self.actualizar_minas()  # Llamamos a la función para regenerar minas
-
-        prev_rect = self.image_rect.copy()  # Guardamos la posición previa del tanque
-
-        # Verificamos la posible colisión antes de mover al tanque
         if self.is_moving_right and not self.collides_with_other_tank(otro_tanque, "right") and \
                 not self.collides_with_walls(paredes, "right") and self.image_rect.right < self.screen_rect.right:
             self.image_rect_centerx += self.tank_speed
@@ -74,11 +69,9 @@ class Tanque:
             self.image_rect_centery += self.tank_speed
             self.direction = 'down'
 
-        # Actualizamos el rectángulo con la nueva posición
         self.image_rect.centerx = self.image_rect_centerx
         self.image_rect.centery = self.image_rect_centery
 
-        # Aseguramos que la imagen del tanque se rote correctamente según la dirección
         self.rotate_image()
 
     def collides_with_walls(self, paredes, direction):
@@ -98,10 +91,8 @@ class Tanque:
         return False
 
     def collides_with_other_tank(self, otro_tanque, direction):
-        """ Verifica si el tanque se movería hacia otro tanque. """
         temp_rect = self.image_rect.copy()
 
-        # Dependiendo de la dirección, movemos temporalmente el rectángulo y verificamos la colisión
         if direction == "right":
             temp_rect.centerx += self.tank_speed
         elif direction == "left":
@@ -111,11 +102,9 @@ class Tanque:
         elif direction == "down":
             temp_rect.centery += self.tank_speed
 
-        # Usamos el rectángulo de la imagen para la colisión
         return temp_rect.colliderect(otro_tanque.image_rect)
 
     def rotate_image(self):
-        """ Rota la imagen del tanque según la dirección del movimiento """
         if self.direction == 'right':
             self.image = pygame.transform.rotate(self.image_original, 270)
         elif self.direction == 'left':

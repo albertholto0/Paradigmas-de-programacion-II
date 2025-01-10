@@ -1,7 +1,6 @@
 import random
 
 class Config:
-    """Constructor"""
     def __init__(self):
         self.game_title = "Tank Battle"
         self.screen_width = 1080

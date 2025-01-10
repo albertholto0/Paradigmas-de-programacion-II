@@ -68,7 +68,7 @@ def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_grou
             sonido_vacio.play()
 
     # Minas
-    elif event.key == pygame.K_0:
+    elif event.key == pygame.K_RSHIFT:
         if tanque1.minas_disponibles > 0:
             nueva_mina = Mina(screen, tanque1.image_rect.centerx, tanque1.image_rect.centery, tanque1, paredes)
             minas_group.add(nueva_mina)
@@ -108,7 +108,7 @@ def check_tank_collision(tanque1, tanque2):
     # Verifica si los rectángulos de los tanques colisionan.
     return tanque1.image_rect.colliderect(tanque2.image_rect)
 
-# Parte de mostrar_niveles_vida en game_functionalities.py
+# Muestra la información en la pantalla
 def mostrar_niveles_vida(screen, vida_tanque1, vida_tanque2, tanque1, tanque2):
     font = pygame.font.Font("media/Pixeled.ttf", 14)  # Fuente personalizada
 
