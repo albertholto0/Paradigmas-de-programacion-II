@@ -39,9 +39,9 @@ class Mina(Sprite):
     def explotar(self):
         print(f"Explosión en forma de cruz iniciada en ({self.rect.centerx}, {self.rect.centery})")
         self.dibujar_explosion()
-        sonido_explosion = pygame.mixer.Sound("media/explosion_mina.mp3")
-        sonido_explosion.set_volume(1)
-        sonido_explosion.play()
+        sonido_quemarse = pygame.mixer.Sound("media/quemarse.mp3")
+        sonido_quemarse.set_volume(1)
+        sonido_quemarse.play()
 
     def dibujar_explosion(self):
         self.explosion_rects = []  # Resetear rectángulos de colisión antes de crear nuevos
