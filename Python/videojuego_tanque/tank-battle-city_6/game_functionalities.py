@@ -15,7 +15,7 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, 
 
         # El evento es presionar una tecla.
         elif event.type == pygame.KEYDOWN:
-            game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio, minas_group)
+            game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio, minas_group, paredes)
 
         # El evento es soltar una tecla.
         elif event.type == pygame.KEYUP:
@@ -24,7 +24,7 @@ def game_events(tank_config, screen, tanque1, tanque2, balas_group, botiquines, 
         elif event.type == pygame.USEREVENT:
             generar_recursos(screen, botiquines, municiones, paredes, tanque1, tanque2)
 
-def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio,  minas_group):
+def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_group, sonido_disparo, sonido_vacio,  minas_group, paredes):
     sonido_tiempo_mina = pygame.mixer.Sound("media/contador_mina.mp3")
     sonido_tiempo_mina.set_volume(1)
     # Tanque 1 (movimiento con las teclas de flecha)
@@ -70,13 +70,13 @@ def game_events_keydown(event, tank_config, screen, tanque1, tanque2, balas_grou
     # Minas
     elif event.key == pygame.K_0:
         if tanque1.minas_disponibles > 0:
-            nueva_mina = Mina(screen, tanque1.image_rect.centerx, tanque1.image_rect.centery, tanque1)
+            nueva_mina = Mina(screen, tanque1.image_rect.centerx, tanque1.image_rect.centery, tanque1, paredes)
             minas_group.add(nueva_mina)
             tanque1.minas_disponibles -= 1
             sonido_tiempo_mina.play()
     elif event.key == pygame.K_f:
             if tanque2.minas_disponibles > 0:
-                nueva_mina = Mina(screen, tanque2.image_rect.centerx, tanque2.image_rect.centery, tanque2)
+                nueva_mina = Mina(screen, tanque2.image_rect.centerx, tanque2.image_rect.centery, tanque2, paredes)
                 minas_group.add(nueva_mina)
                 tanque2.minas_disponibles -= 1
                 sonido_tiempo_mina.play()
@@ -172,10 +172,9 @@ def manejar_colisiones(tanque1, tanque2, balas_group, botiquines, municiones, so
         if mina.exploded and mina.activo:
             for explosion_rect in mina.explosion_rects:
                 if explosion_rect.colliderect(tanque1.image_rect):
-                    mina.aplicar_dano(tanque1)
+                    mina.aplicar_dano(tanque1, 20)
                 elif explosion_rect.colliderect(tanque2.image_rect):
-                    mina.aplicar_dano(tanque2)
-
+                    mina.aplicar_dano(tanque2, 20)
 
     # Colisiones con botiquines
     for botiquin in list(botiquines):
