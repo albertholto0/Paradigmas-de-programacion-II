@@ -47,6 +47,10 @@ def mostrar_menu():
     else:
         return None
 
+# Función para seleccionar la jugada de la CPU
+def cpu_jugada():
+    return random.choice(["piedra", "papel", "tijeras"])
+
 # Función para determinar el ganador
 def jugar_ronda(jugador, cpu):
     if reglas[jugador][cpu] == "victoria":
@@ -55,10 +59,6 @@ def jugar_ronda(jugador, cpu):
         return "derrota"
     else:
         return "empate"
-
-# Función para seleccionar la jugada de la CPU
-def cpu_jugada():
-    return random.choice(["piedra", "papel", "tijeras"])
 
 # Uso de variables para llevar el conteo de victorias, empates y derrotas
 victorias, empates, derrotas = 0, 0, 0

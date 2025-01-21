@@ -16,6 +16,7 @@ Descripción: Ejercicio aplicando los conceptos de conjuntos
         b) Utilice un valor aleatorio utilizando la función random.choice(lista). Notar que hay que convertir primero a una lista.
 """
 import random
+from idlelib.iomenu import encoding
 
 # Conjunto vacío
 participantes = set()
@@ -68,11 +69,11 @@ def eliminar_participante():
 
 # Función para seleccionar un ganador aleatorio
 def seleccionar_ganador():
+
     if not participantes:
         print("\nNo hay participantes para seleccionar un ganador.")
     else:
         ganador = random.choice(list(participantes))  # Convierte a lista para usar random.choice
-        print(f"\nEl ganador de la rifa es: {ganador}")
 
 # Código a nivel de módulo
 while True:
