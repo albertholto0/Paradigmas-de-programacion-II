@@ -1,6 +1,39 @@
 [Numero de ronda: 1]  [Victorias: 0]  [Empates: 0]  [Derrotas: 0]
-[Numero de ronda: 1]  [Victorias: 0]  [Empates: 0]  [Derrotas: 0]
-[Numero de ronda: 1]  [Victorias: 0]  [Empates: 0]  [Derrotas: 0]
-[Numero de ronda: 1]  [Victorias: 0]  [Empates: 0]  [Derrotas: 0]
-[Numero de ronda: 1]  [Victorias: 0]  [Empates: 0]  [Derrotas: 0]
-[Numero de ronda: 1]  [Victorias: 0]  [Empates: 0]  [Derrotas: 0]
+Ronda 2:
+[Jugador]: Piedra  [CPU]: Lagarto
+En esta ronda ganó el jugador
+
+[Numero de ronda: 2]  [Victorias: 1]  [Empates: 0]  [Derrotas: 0]
+Ronda 3:
+[Jugador]: Papel  [CPU]: Spock
+En esta ronda ganó el jugador
+
+[Numero de ronda: 3]  [Victorias: 2]  [Empates: 0]  [Derrotas: 0]
+Ronda 4:
+[Jugador]: Tijeras  [CPU]: Piedra
+En esta ronda ganó el CPU
+
+[Numero de ronda: 4]  [Victorias: 2]  [Empates: 0]  [Derrotas: 1]
+Ronda 5:
+[Jugador]: Papel  [CPU]: Papel
+En esta ronda fue un empate
+
+[Numero de ronda: 5]  [Victorias: 2]  [Empates: 1]  [Derrotas: 1]
+Ronda 6:
+[Jugador]: Piedra  [CPU]: Spock
+En esta ronda ganó el CPU
+
+[Numero de ronda: 6]  [Victorias: 2]  [Empates: 1]  [Derrotas: 2]
+Ronda 7:
+[Jugador]: Spock  [CPU]: Piedra
+En esta ronda ganó el jugador
+
+[Numero de ronda: 7]  [Victorias: 3]  [Empates: 1]  [Derrotas: 2]
+[Numero de ronda: 7]  [Victorias: 3]  [Empates: 1]  [Derrotas: 2]
+Ronda 8:
+[Jugador]: Lagarto  [CPU]: Lagarto
+En esta ronda fue un empate
+
+[Numero de ronda: 8]  [Victorias: 3]  [Empates: 2]  [Derrotas: 2]
+
+------> El jugador cerró el juego.
