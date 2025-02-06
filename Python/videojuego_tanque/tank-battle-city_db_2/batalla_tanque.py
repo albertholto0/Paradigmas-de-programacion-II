@@ -99,6 +99,7 @@ def solicitar_nombres_jugadores(screen):
                     elif len(nombre_jugador2) < 10:
                         nombre_jugador2 += event.unicode
 
+
 def mostrar_historial(screen):
     try:
         cn1 = Conexion.get_connection()
