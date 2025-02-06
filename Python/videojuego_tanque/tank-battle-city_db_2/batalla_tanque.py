@@ -10,7 +10,9 @@ from conexion import Conexion, Error
 
 def guardar_partida_y_victoria(jugador1, jugador2, ganador, puntuacion):
     try:
+        # Obtiene una conexion a la base de datos
         cn1 = Conexion.get_connection()
+        # Crea un cursor para ejecutar comandos SQL
         cursor = cn1.cursor()
 
         # Insertar en la tabla partidas
@@ -21,12 +23,14 @@ def guardar_partida_y_victoria(jugador1, jugador2, ganador, puntuacion):
         # Insertar en la tabla victorias
         cursor.execute("INSERT INTO victorias (ganador, puntuacion, id_partida) VALUES (%s, %s, %s)", (ganador, puntuacion, id_partida))
 
+        # Confirma la transacción a la base de datos
         cn1.commit()
         print("Partida y victoria guardadas correctamente")
 
     except Error as e:
         print(f"Error al guardar la partida y victoria... | {e}")
     finally:
+        # Cierra el cursor y la conexión a la base de datos
         cursor.close()
         cn1.close()
 
