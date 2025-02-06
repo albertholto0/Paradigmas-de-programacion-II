@@ -6,7 +6,29 @@ from pygame.sprite import Group
 import sys
 import time
 from Pared import Pared
+from conexion import Conexion, Error
 
+def guardar_partida_y_victoria(jugador1, jugador2, ganador, puntuacion):
+    try:
+        cn1 = Conexion.get_connection()
+        cursor = cn1.cursor()
+
+        # Insertar en la tabla partidas
+        detalle_partida = f"{jugador1} y {jugador2} jugaron"
+        cursor.execute("INSERT INTO partidas (detalle_partida, fecha) VALUES (%s, NOW())", (detalle_partida,))
+        id_partida = cursor.lastrowid
+
+        # Insertar en la tabla victorias
+        cursor.execute("INSERT INTO victorias (ganador, puntuacion, id_partida) VALUES (%s, %s, %s)", (ganador, puntuacion, id_partida))
+
+        cn1.commit()
+        print("Partida y victoria guardadas correctamente")
+
+    except Error as e:
+        print(f"Error al guardar la partida y victoria... | {e}")
+    finally:
+        cursor.close()
+        cn1.close()
 
 def solicitar_nombres_jugadores(screen):
     pygame.init()
@@ -168,8 +190,14 @@ def run_game():
                 minas_group.remove(mina)
 
         if tanque1.vida <= 0 or tanque2.vida <= 0:
-            tanque_ganador = (tanque1.nombre if tanque1.vida >= 0 else tanque2.nombre)
-            print(f"{tanque_ganador} ha ganado. Mostrando pantalla de fin del juego.")
+            if tanque1.vida <= 0 and tanque2.vida <= 0:
+                print("Es un empate. Ambos tanques se destruyeron al mismo tiempo.")
+            else:
+                tanque_ganador = (tanque2.nombre if tanque1.vida <= 0 else tanque1.nombre)
+                tanque_ganador_puntuacion = int(tanque2.puntuacion if tanque1.vida <= 0 else tanque1.puntuacion)
+                print(f"{tanque_ganador} ha ganado. Mostrando pantalla de fin del juego.")
+                guardar_partida_y_victoria(nombre_jugador1, nombre_jugador2, tanque_ganador, tanque_ganador_puntuacion)
+
             tanque_rect = tanque1.image_rect if tanque1.vida <= 0 else tanque2.image_rect
 
             pygame.mixer.music.stop()
