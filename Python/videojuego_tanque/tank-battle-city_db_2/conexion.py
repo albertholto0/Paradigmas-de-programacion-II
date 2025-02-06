@@ -8,8 +8,8 @@ class Conexion:
         if cls.pool is None:
             try:
                 cls.pool = pooling.MySQLConnectionPool(
-                    host="localhost",
-                    user="root",
+                    host="172.25.3.194",
+                    user="albert_redes",
                     password="root",
                     database="tank_battle",
                     pool_name="tank_battle_pool",
